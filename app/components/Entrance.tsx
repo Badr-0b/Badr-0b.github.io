@@ -12,16 +12,32 @@ const T_CHARGE = 650;
 const T_REVEAL = 1100;
 const T_SETTLE = 750;
 
+interface EntranceProps {
+    /** Fires once the site is being revealed (settle begins, or immediately if skipped). */
+    onDone?: () => void;
+}
+
 /**
  * The "6-star pull" entrance — FELT, NOT SHOWN (AESTHETIC_DIRECTION.md §2).
  * void -> charge -> "welcome to my domain" + one specular sheen -> settle.
  * Skippable (click / key / scroll), once-only (localStorage), reduced-motion safe.
+ * Calls onDone once at the settle handoff so the hero can compose in as the void dissolves.
  */
-export default function Entrance() {
+export default function Entrance({ onDone }: EntranceProps) {
     const { t } = useLanguage();
     const [phase, setPhase] = useState<Phase>('init');
     const timers = useRef<number[]>([]);
     const settledRef = useRef(false);
+
+    // fire the reveal handoff exactly once, independent of onDone identity
+    const onDoneRef = useRef(onDone);
+    onDoneRef.current = onDone;
+    const doneFired = useRef(false);
+    const fireDone = useCallback(() => {
+        if (doneFired.current) return;
+        doneFired.current = true;
+        onDoneRef.current?.();
+    }, []);
 
     const clearTimers = useCallback(() => {
         timers.current.forEach((id) => window.clearTimeout(id));
@@ -44,8 +60,12 @@ export default function Entrance() {
         settledRef.current = true;
         clearTimers();
         setPhase('settle');
+        // unlock scroll now (not at finish) so the journey's ScrollTriggers build against a
+        // scrollable page — otherwise pins mis-measure and lock at the top.
+        document.body.classList.remove('entrance-lock');
+        fireDone();
         timers.current.push(window.setTimeout(finish, T_SETTLE));
-    }, [clearTimers, finish]);
+    }, [clearTimers, finish, fireDone]);
 
     // schedule the ritual
     useEffect(() => {
@@ -58,6 +78,7 @@ export default function Entrance() {
         }
         if (seen || reduce) {
             setPhase('done');
+            fireDone();
             return;
         }
 
@@ -68,6 +89,8 @@ export default function Entrance() {
         const t3 = window.setTimeout(() => {
             settledRef.current = true;
             setPhase('settle');
+            document.body.classList.remove('entrance-lock');
+            fireDone();
         }, T_VOID + T_CHARGE + T_REVEAL);
         const t4 = window.setTimeout(finish, T_VOID + T_CHARGE + T_REVEAL + T_SETTLE);
         timers.current = [t1, t2, t3, t4];
@@ -76,7 +99,7 @@ export default function Entrance() {
             clearTimers();
             document.body.classList.remove('entrance-lock');
         };
-    }, [finish, clearTimers]);
+    }, [finish, clearTimers, fireDone]);
 
     // skip affordances
     useEffect(() => {

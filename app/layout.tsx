@@ -25,6 +25,14 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning className={spaceMono.variable}>
             <head>
+                {/* Mark JS as live before first paint, so hero-enter start-states (which hide the
+                    hero until the entrance hands off) apply ONLY when JS can animate them back in.
+                    No-JS keeps everything visible. */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: "document.documentElement.classList.add('js')",
+                    }}
+                />
                 {/* Display + body faces (Fontshare). Self-hosting via next/font/local is the
                     production-hardening step noted in AESTHETIC_DIRECTION.md §3. */}
                 <link rel="preconnect" href="https://api.fontshare.com" />

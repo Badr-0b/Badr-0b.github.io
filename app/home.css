@@ -41,6 +41,11 @@
 .hero__inner {
     max-width: min(640px, 100%);
 }
+/* pointer parallax lives here so GSAP owns the title's own transform (enter + scroll) */
+.hero__tilt {
+    transform: translate(var(--px, 0), var(--py, 0));
+    will-change: transform;
+}
 .hero__eyebrow {
     margin-bottom: clamp(18px, 2.4vw, 28px);
     color: var(--text-dim);
@@ -53,7 +58,17 @@
     font-size: clamp(1.9rem, 4.2vw, 3.75rem);
     line-height: 1.02;
     letter-spacing: -0.03em;
-    transform: translate(var(--px, 0), var(--py, 0));
+}
+
+/* ---------- HERO ENTER — hidden until the entrance hands off, then GSAP reveals ----------
+   Gated on `.js` so no-JS keeps the hero fully visible; reduced-motion also reveals instantly. */
+.js .hero [data-enter] {
+    opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+    .js .hero [data-enter] {
+        opacity: 1;
+    }
 }
 .hero__sub {
     margin-top: clamp(20px, 2.6vw, 30px);
@@ -102,56 +117,101 @@
     margin-inline-start: 0.4em;
 }
 
-/* ---------- SELECTED WORK — an index ---------- */
-.work__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid var(--border);
+/* ---------- SELECTED WORK — a pinned gallery on the descent ---------- */
+.work {
+    /* tighter block padding so the pinned stage sits fully in view */
+    padding-block: clamp(80px, 11vh, 130px);
 }
-.work__item {
-    display: grid;
-    grid-template-columns: 1fr auto 1.4rem;
-    align-items: center;
-    column-gap: clamp(16px, 3vw, 36px);
-    padding: clamp(20px, 3vw, 34px) 0;
+.work__stage {
+    position: relative;
     border-top: 1px solid var(--border);
 }
-.work__title {
+.work__panel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        'idx title'
+        'idx tag'
+        'idx cue';
+    column-gap: clamp(16px, 2.4vw, 30px);
+    row-gap: 6px;
+    align-content: center;
+    padding: clamp(26px, 4vw, 44px) 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+.work__panel-idx {
+    grid-area: idx;
+    align-self: start;
+    padding-top: 0.6em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+}
+.work__panel-title {
+    grid-area: title;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: clamp(1.35rem, 2.6vw, 2.05rem);
+    font-size: clamp(2rem, 6vw, 4.4rem);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     color: var(--text);
-    transition: transform 0.45s var(--ease-luxury), color 0.3s var(--ease-luxury);
+    transition: transform 0.5s var(--ease-luxury), color 0.35s var(--ease-luxury);
 }
-.work__meta {
+.work__panel-tag {
+    grid-area: tag;
     font-family: var(--font-mono);
     font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    color: var(--text-faint);
-    white-space: nowrap;
-}
-.work__arrow {
-    justify-self: end;
-    font-size: 1.1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--text-dim);
-    transition: transform 0.4s var(--ease-luxury), color 0.3s var(--ease-luxury);
 }
-.work__item:hover .work__title {
+.work__panel-cue {
+    grid-area: cue;
+    margin-top: clamp(10px, 1.4vw, 16px);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.35s var(--ease-luxury);
+}
+.work__panel:hover .work__panel-title {
     transform: translateX(12px);
     color: var(--accent);
 }
-.work__item:hover .work__arrow {
-    transform: translate(5px, -5px);
+.work__panel:hover .work__panel-cue {
     color: var(--accent);
 }
-[dir='rtl'] .work__item:hover .work__title {
+[dir='rtl'] .work__panel:hover .work__panel-title {
     transform: translateX(-12px);
 }
-[dir='rtl'] .work__item:hover .work__arrow {
-    transform: translate(-5px, -5px);
+
+/* Gallery mode (desktop + JS): a tall scroll track holds a sticky stage whose panels
+   cross-fade with scroll — CSS sticky, not a ScrollTrigger pin (robust under overflow-x clip). */
+.work__scroll.is-gallery {
+    height: 300vh;
+}
+.work__scroll.is-gallery .work__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 480px;
+    border-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.work__scroll.is-gallery .work__panel {
+    position: absolute;
+    inset: 0;
+    align-content: center;
+    padding: 0;
+    border: 0;
+}
+.work__scroll.is-gallery .work__panel-title {
+    font-size: clamp(2.6rem, 8vw, 6rem);
 }
 
 /* ---------- EXPERIENCE ---------- */
@@ -192,7 +252,19 @@
     line-height: 1.5;
 }
 
-/* ---------- STATEMENT ---------- */
+/* ---------- STATEMENT — a held monolith ---------- */
+/* Held as a sticky monolith (desktop + JS) while its words resolve on scroll */
+.statement__scroll.is-held {
+    height: 200vh;
+}
+.statement__scroll.is-held .statement__hold {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .statement__text {
     max-width: 40ch;
     font-family: var(--font-display);
@@ -250,13 +322,7 @@
     .hero__meta {
         display: none;
     }
-    .work__item {
-        grid-template-columns: 1fr 1.2rem;
-    }
-    .work__meta {
-        display: none;
-    }
-    .work__item:hover .work__title {
+    .work__panel:hover .work__panel-title {
         transform: none;
     }
 }

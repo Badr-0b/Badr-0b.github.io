@@ -1,0 +1,58 @@
+/* ---------- Descent instrument — spine + depth readout ---------- */
+.scroll-spine {
+    position: fixed;
+    right: clamp(12px, 1.8vw, 22px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 500; /* below nav (1000) and cursor (10000) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+    opacity: 0; /* revealed by JS once armed; stays hidden with no JS */
+    mix-blend-mode: difference; /* legible over any section, dark or light */
+}
+[dir='rtl'] .scroll-spine {
+    right: auto;
+    left: clamp(12px, 1.8vw, 22px);
+}
+
+.scroll-spine__track {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: clamp(120px, 22vh, 200px);
+    background: color-mix(in srgb, var(--text) 22%, transparent);
+    overflow: hidden;
+}
+.scroll-spine__fill {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: var(--text);
+    transform: scaleY(0);
+    transform-origin: top center;
+    will-change: transform;
+}
+
+.scroll-spine__readout {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-spine {
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .scroll-spine {
+        display: none; /* keep the narrowest phones clean */
+    }
+}

@@ -64,6 +64,15 @@
 
 html {
     -webkit-text-size-adjust: 100%;
+    /* Hide the native scrollbar — the custom descent spine is the only position cue (§6, §7).
+       Scrolling stays fully functional (wheel / touch / keyboard). */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* legacy Edge / IE */
+}
+html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none; /* Chrome / Safari / Edge */
 }
 
 body {
@@ -75,7 +84,10 @@ body {
     font-size: 16px;
     line-height: 1.6;
     font-weight: 400;
-    overflow-x: hidden;
+    /* clip (not hidden): `overflow-x: hidden` forces overflow-y to compute to `auto`, making
+       body a scroll container that breaks ScrollTrigger's scroll reading. `clip` avoids that
+       while still clipping horizontal overflow. */
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background 0.3s ease, color 0.3s ease;
