@@ -136,7 +136,7 @@ export default function Home() {
                     <div className="section__label-col">
                         <Reveal>
                             <p className="label">
-                                {t('nav.contact')} <span className="section__idx">/ 03</span>
+                                {t('nav.connect')} <span className="section__idx">/ 03</span>
                             </p>
                         </Reveal>
                     </div>
@@ -145,9 +145,9 @@ export default function Home() {
                             <h2 className="cta__title">{t('home.cta.text')}</h2>
                         </Reveal>
                         <Reveal delay={120}>
-                            <Link className="text-link cta__link" href="/contact" data-hover>
+                            <a className="text-link cta__link" href="mailto:badr@obtel.org" data-hover>
                                 {t('home.cta.button')} <span aria-hidden="true">↗</span>
-                            </Link>
+                            </a>
                         </Reveal>
                     </div>
                 </footer>

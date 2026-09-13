@@ -37,7 +37,7 @@ The only job of this page is to make the right person stay and click something.
 - No paragraph copy. Just the labels.
 
 **Brief about blurb**
-- 2-3 sentences max. What you build, where you are (2nd year EE), what you're open to.
+- 2-3 sentences max. What you build, where you are (3rd year Honors EE undergrad), what you're open to.
 - Link to `/about` for more
 - Optional: a single hardware photo here works well if you have a clean one
 
@@ -84,7 +84,7 @@ This is the page you link to in Upwork proposals and internship applications. It
 ### 3. About (`/about`)
 
 **Who you are block**
-- 1 short paragraph. EE student, 2nd year, what you focus on, what you've shipped.
+- 1 short paragraph. Honors EE undergrad, 3rd year, what you focus on, what you've shipped.
 - No life story. No "from a young age I was fascinated by..."
 
 **What you work with**
@@ -95,7 +95,7 @@ This is the page you link to in Upwork proposals and internship applications. It
 
 **Currently**
 - Short status block, 2-3 lines
-- "2nd year EE (Honors). Freelancing on Upwork. Open to internships starting [date]."
+- "3rd year Honors EE undergrad. Freelancing on Upwork. Open to internships starting [date]."
 - Keep it current. Update this every semester.
 
 **Feneris mention**

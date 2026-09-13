@@ -41,7 +41,14 @@ export default function Navbar() {
                             <Link href="/about" data-hover>{t('nav.about')}</Link>
                         </li>
                         <li>
-                            <Link href="/contact" data-hover>{t('nav.contact')}</Link>
+                            <a
+                                href="https://www.linkedin.com/in/badrobtel/"
+                                target="_blank"
+                                rel="noreferrer"
+                                data-hover
+                            >
+                                {t('nav.connect')}
+                            </a>
                         </li>
                         <li>
                             <button
