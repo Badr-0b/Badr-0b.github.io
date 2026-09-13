@@ -1,0 +1,93 @@
+.rmodal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: grid;
+    place-items: center;
+    padding: clamp(16px, 4vw, 56px);
+    background: color-mix(in srgb, var(--bg) 76%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: rmodal-fade 0.4s var(--ease-luxury);
+}
+@keyframes rmodal-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.rmodal__panel {
+    position: relative;
+    width: min(900px, 100%);
+    height: min(92vh, 100%);
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 50px 140px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    animation: rmodal-rise 0.55s var(--ease-luxury);
+}
+@keyframes rmodal-rise {
+    from {
+        opacity: 0;
+        transform: translateY(26px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.rmodal__bar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px clamp(18px, 2.5vw, 26px);
+    border-bottom: 1px solid var(--border);
+}
+.rmodal__title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.rmodal__actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 2.5vw, 26px);
+}
+.rmodal__download {
+    font-size: 0.7rem;
+}
+.rmodal__close {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.25s var(--ease-luxury), transform 0.25s var(--ease-luxury);
+}
+.rmodal__close:hover {
+    color: var(--text);
+    transform: rotate(90deg);
+}
+
+.rmodal__doc {
+    flex: 1 1 auto;
+    min-height: 0;
+    background: color-mix(in srgb, var(--text) 6%, var(--surface));
+}
+.rmodal__frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}

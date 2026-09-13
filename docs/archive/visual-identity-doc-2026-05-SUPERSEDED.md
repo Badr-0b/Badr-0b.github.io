@@ -1,3 +1,10 @@
+> ## ⚠ ARCHIVED — SUPERSEDED — DO NOT USE
+> This document (May 2026, "warm Swiss bank / Loro Piana" direction: Cormorant Garamond + Syne,
+> warm gold) is **retired**. It does **not** describe the current site.
+>
+> **The single source of truth is [`/AESTHETIC_DIRECTION.md`](../../AESTHETIC_DIRECTION.md)**
+> ("Modern Monolith": Clash Display + Satoshi + Space Mono, cool near-monochrome). If this file
+> and that one disagree, that one wins. Kept only as historical reference.
 
 # Visual Identity Document
 **Owner:** Badr  

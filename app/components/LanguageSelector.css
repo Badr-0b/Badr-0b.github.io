@@ -7,41 +7,40 @@
     align-items: center;
     gap: 0.5rem;
     background: transparent;
-    border: 1px solid #333;
-    color: #aaa;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
-    letter-spacing: 1px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 0.45rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-family: inherit;
+    transition: color 0.25s var(--ease-luxury), border-color 0.25s var(--ease-luxury);
 }
 
 .lang-selector-btn:hover {
-    color: #fff;
-    border-color: #555;
+    color: var(--text);
+    border-color: var(--text-dim);
 }
 
 .lang-selector-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     stroke: currentColor;
     fill: none;
 }
 
 .lang-dropdown {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + 0.6rem);
     right: 0;
-    background: #111;
-    border: 1px solid #333;
-    min-width: 150px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    min-width: 160px;
     z-index: 100;
     opacity: 0;
     transform: translateY(-8px);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.25s var(--ease-luxury), transform 0.25s var(--ease-luxury);
 }
 
 .lang-dropdown.open {
@@ -53,32 +52,30 @@
 .lang-option {
     display: block;
     width: 100%;
-    padding: 0.6rem 1rem;
+    padding: 0.65rem 1rem;
     background: transparent;
     border: none;
-    color: #aaa;
+    color: var(--text-dim);
+    font-family: var(--font-body);
     font-size: 0.85rem;
     text-align: left;
-    cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
-    font-family: inherit;
 }
 
-[dir="rtl"] .lang-option {
+[dir='rtl'] .lang-option {
     text-align: right;
 }
-
-[dir="rtl"] .lang-dropdown {
+[dir='rtl'] .lang-dropdown {
     right: auto;
     left: 0;
 }
 
 .lang-option:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+    color: var(--text);
 }
 
 .lang-option.active {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 5%, transparent);
 }

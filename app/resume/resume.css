@@ -1,0 +1,36 @@
+.resume-page {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(76px, 10vh, 104px);
+}
+
+.resume-page__bar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px var(--edge);
+    border-bottom: 1px solid var(--border);
+}
+.resume-page__title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.resume-page__doc {
+    flex: 1 1 auto;
+    min-height: 0;
+    background: color-mix(in srgb, var(--text) 6%, var(--surface));
+}
+.resume-page__doc iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}

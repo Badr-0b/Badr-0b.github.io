@@ -1,9 +1,21 @@
-import { Inter } from 'next/font/google';
+import type { Metadata } from 'next';
+import { Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/Navbar';
+import CustomCursor from './components/CustomCursor';
 import { LanguageProvider } from './components/LanguageContext';
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '700', '900'] });
+const spaceMono = Space_Mono({
+    subsets: ['latin'],
+    weight: ['400', '700'],
+    variable: '--font-space-mono',
+    display: 'swap',
+});
+
+export const metadata: Metadata = {
+    title: 'Badr Obtel — Hardware Engineer',
+    description: 'Embedded systems, PCB design, shipped hardware. Welcome to my domain.',
+};
 
 export default function RootLayout({
     children,
@@ -11,13 +23,20 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" suppressHydrationWarning className={spaceMono.variable}>
             <head>
-                <title>Under Construction</title>
-                <meta name="description" content="Site is undergoing construction currently." />
+                {/* Display + body faces (Fontshare). Self-hosting via next/font/local is the
+                    production-hardening step noted in AESTHETIC_DIRECTION.md §3. */}
+                <link rel="preconnect" href="https://api.fontshare.com" />
+                <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+                <link
+                    rel="stylesheet"
+                    href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500,700&display=swap"
+                />
             </head>
-            <body className={inter.className}>
+            <body>
                 <LanguageProvider>
+                    <CustomCursor />
                     <Navbar />
                     {children}
                 </LanguageProvider>

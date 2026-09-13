@@ -1,0 +1,40 @@
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 1.5px solid transparent;
+    pointer-events: none;
+    z-index: 10000;
+    opacity: 0;
+    transition: width 0.28s var(--ease-luxury), height 0.28s var(--ease-luxury),
+        background 0.28s var(--ease-luxury), border-color 0.28s var(--ease-luxury),
+        opacity 0.3s ease;
+}
+
+.cursor-dot.is-visible {
+    opacity: 1;
+}
+
+.cursor-dot.is-hover {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border-color: var(--accent);
+}
+
+/* touch / coarse pointers never see it */
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-dot {
+        display: none;
+    }
+}

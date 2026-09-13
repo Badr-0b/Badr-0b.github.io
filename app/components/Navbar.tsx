@@ -4,48 +4,73 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLanguage } from './LanguageContext';
 import LanguageSelector from './LanguageSelector';
+import ResumeModal from './ResumeModal';
 import './Navbar.css';
 
 export default function Navbar() {
-    const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const [scrolled, setScrolled] = useState(false);
+    const [light, setLight] = useState(false);
+    const [resumeOpen, setResumeOpen] = useState(false);
     const { t } = useLanguage();
 
     useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+        const onScroll = () => setScrolled(window.scrollY > 60);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
-            if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
-            }
-
-            setLastScrollY(currentScrollY);
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    const toggleTheme = () => {
+        const isLight = document.documentElement.classList.toggle('light');
+        setLight(isLight);
+    };
 
     return (
-        <nav className={`navbar ${isVisible ? 'navbar-visible' : 'navbar-hidden'}`}>
-            <div className="navbar-container">
-                <div className="navbar-logo">
-                    <Link href="/">
-                        Badr Obtel <span className="dev-badge">{t('nav.badge')}</span>
+        <>
+            <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+                <div className="nav__inner">
+                    <Link href="/" className="nav__brand" data-hover>
+                        Badr Obtel
                     </Link>
+
+                    <ul className="nav__links">
+                        <li>
+                            <Link href="/projects" data-hover>{t('nav.projects')}</Link>
+                        </li>
+                        <li>
+                            <Link href="/about" data-hover>{t('nav.about')}</Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" data-hover>{t('nav.contact')}</Link>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                className="nav__link-btn"
+                                onClick={() => setResumeOpen(true)}
+                                data-hover
+                            >
+                                {t('nav.resume')}
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div className="nav__tools">
+                        <button
+                            type="button"
+                            className="nav__theme"
+                            onClick={toggleTheme}
+                            data-hover
+                            aria-label="Toggle light / dark theme"
+                        >
+                            {light ? 'Dark' : 'Light'}
+                        </button>
+                        <LanguageSelector />
+                    </div>
                 </div>
-                <ul className="navbar-links">
-                    <li><Link href="/">{t('nav.home')}</Link></li>
-                    <li><Link href="/projects">{t('nav.projects')}</Link></li>
-                    <li><Link href="/about">{t('nav.about')}</Link></li>
-                    <li><Link href="/contact">{t('nav.contact')}</Link></li>
-                    <li><Link href="/resume">{t('nav.resume')}</Link></li>
-                </ul>
-                <button onClick={() => document.documentElement.classList.toggle('dark-theme')}>Toggle Theme</button>
-                <LanguageSelector />
-            </div>
-        </nav>
+            </nav>
+
+            <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
+        </>
     );
 }

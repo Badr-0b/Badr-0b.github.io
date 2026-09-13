@@ -1,143 +1,269 @@
-body,
+/* =========================================================================
+   badr.github.io — design system
+   Governed by AESTHETIC_DIRECTION.md ("Modern Monolith").
+   Cool near-monochrome + one accent. Dark is primary.
+   ========================================================================= */
+
+:root {
+    /* color — dark (default) */
+    --bg: #0a0a0b;
+    --surface: #141517;
+    --text: #f4f5f7;
+    --text-dim: #8a8f98;
+    --text-faint: #585c63;
+    --border: #232529;
+    --accent: #c8d2e0;
+    --sheen: #f4f8ff;
+
+    /* type */
+    --font-display: 'Clash Display', 'Shippori Mincho', 'Noto Sans JP', 'Noto Sans SC',
+        'Noto Naskh Arabic', system-ui, sans-serif;
+    --font-body: 'Satoshi', 'Noto Sans JP', 'Noto Sans SC', 'Noto Naskh Arabic', system-ui,
+        -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: var(--font-space-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    /* motion */
+    --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* space */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 32px;
+    --space-xl: 64px;
+    --space-2xl: 128px;
+    --space-3xl: 200px;
+
+    /* layout */
+    --container: 1280px;
+    --pad: clamp(24px, 5vw, 80px);
+    --edge: clamp(20px, 3.2vw, 56px); /* full-bleed viewport-edge gutter */
+
+    color-scheme: dark;
+}
+
+/* light theme — a subtle shift, not a second design: warm "paper" ground + a warm
+   bronze accent, where dark stays a cool cinematic void (AESTHETIC_DIRECTION.md §4). */
+:root.light {
+    --bg: #f3f1ec;
+    --surface: #eae7df;
+    --text: #17140d;
+    --text-dim: #5d574a;
+    --text-faint: #9c9689;
+    --border: #dbd6cc;
+    --accent: #7d6a48;
+    --sheen: #ffffff;
+    color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
     margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #000000;
-    color: #ffffff;
-    /* Adding overflow-y: auto to allow testing the scroll behavior of navbar */
-    overflow-y: auto;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-.background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/construction.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-    filter: grayscale(100%);
-    opacity: 0.3;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(15, 15, 15, 0.8) 100%);
-    backdrop-filter: blur(5px);
-    z-index: -1;
-}
-
-.content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    /* Ensure content is tall enough to allow scrolling */
-    min-height: 150vh;
-    padding: 20vh 2rem 2rem;
-    text-align: center;
-    z-index: 10;
-}
-
-h1 {
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    max-width: 800px;
-    text-align: center;
-    width: 100%;
-}
-
-h1 span {
-    color: #888888;
-    display: inline-block;
-    margin-top: 0.5rem;
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
 }
 
 p {
-    font-size: clamp(1rem, 2.5vw, 1.125rem);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    max-width: 600px;
-    color: #a3a3a3;
-    font-weight: 400;
-    padding: 0 1rem;
+    margin: 0;
 }
 
-.note-card {
-    margin-top: clamp(2rem, 5vw, 3rem);
-    padding: clamp(1rem, 3vw, 1.5rem);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+/* thin monochrome scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+    background: var(--border);
     border-radius: 0;
-    transition: transform 0.3s ease, background 0.3s ease;
-    width: 90%;
-    max-width: 500px;
 }
 
-.note-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.license-note {
-    font-size: clamp(0.75rem, 2vw, 0.875rem);
-    color: #777777;
-    margin-bottom: 0;
-    font-style: italic;
+/* ---- shared type helpers ---- */
+.eyebrow,
+.label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin: 0;
 }
 
-.progress-bar {
-    width: 90%;
-    max-width: 300px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: clamp(1.5rem, 4vw, 2rem) auto;
-    overflow: hidden;
+/* ---- scroll reveal (see AESTHETIC_DIRECTION.md §5) ---- */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
+    will-change: opacity, transform;
+}
+.reveal.in {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---- buttons / links ---- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.95em 1.6em;
+    border: 1px solid var(--border);
+    transition: color 0.3s var(--ease-luxury), background 0.3s var(--ease-luxury),
+        border-color 0.3s var(--ease-luxury);
+}
+.btn--primary {
+    border-color: var(--accent);
+    color: var(--text);
+}
+.btn--primary:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+.btn--ghost:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+}
+
+.link-underline {
     position: relative;
+    color: var(--text);
+    padding-bottom: 2px;
 }
-
-.progress-fill {
+.link-underline::after {
+    content: '';
     position: absolute;
-    top: 0;
     left: 0;
-    height: 100%;
-    width: 30%;
-    background: #ffffff;
-    animation: slide 2s infinite ease-in-out;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-luxury);
+}
+[dir='rtl'] .link-underline::after {
+    transform-origin: right;
+}
+.link-underline:hover::after {
+    transform: scaleX(1);
 }
 
-@keyframes slide {
-    0% {
-        left: -30%;
-    }
+/* quiet mono text link with draw-on underline + nudging arrow */
+.text-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text);
+    padding-bottom: 3px;
+}
+.text-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-luxury);
+}
+[dir='rtl'] .text-link::after {
+    transform-origin: right;
+}
+.text-link:hover::after {
+    transform: scaleX(1);
+}
+.text-link span {
+    transition: transform 0.3s var(--ease-luxury);
+}
+.text-link:hover span {
+    transform: translate(3px, -3px);
+}
+.text-link--dim {
+    color: var(--text-dim);
+}
+.text-link--dim::after {
+    background: var(--text-dim);
+}
 
-    100% {
-        left: 100%;
+/* ---- custom cursor: hide native cursor only when JS mounts it, desktop only ---- */
+@media (hover: hover) and (pointer: fine) {
+    body.cursor-ready,
+    body.cursor-ready * {
+        cursor: none !important;
     }
 }
 
-@media screen and (max-height: 500px) {
-    .content {
-        padding: 5rem 1rem 1rem;
-        justify-content: flex-start;
-    }
+/* ---- entrance / modal scroll lock ---- */
+body.entrance-lock,
+body.modal-lock {
+    overflow: hidden;
+}
 
-    h1 {
-        margin-top: 2rem;
+/* ---- accessibility: honor reduced motion everywhere ---- */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
     }
 }
