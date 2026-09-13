@@ -154,6 +154,44 @@
     transform: translate(-5px, -5px);
 }
 
+/* ---------- EXPERIENCE ---------- */
+.exp__item {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: clamp(20px, 3vw, 34px) 0;
+}
+.exp__org {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.35rem, 2.6vw, 2.05rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+.exp__meta {
+    margin: clamp(10px, 1.4vw, 16px) 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.exp__note {
+    margin: clamp(14px, 1.8vw, 20px) 0 0;
+    max-width: 46ch;
+    color: var(--text-dim);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    line-height: 1.55;
+}
+.exp__highlight {
+    margin: clamp(10px, 1.4vw, 16px) 0 0;
+    max-width: 52ch;
+    color: var(--text);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    line-height: 1.5;
+}
+
 /* ---------- STATEMENT ---------- */
 .statement__text {
     max-width: 40ch;

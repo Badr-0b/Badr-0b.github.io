@@ -1,64 +1,47 @@
 import React from 'react';
 import Link from 'next/link';
 
-// Sample data for the bare-bones build
+// Project data — drawn from the résumé
 const projectData: Record<string, any> = {
-    'esp32-custom-board': {
-        title: 'ESP32 Custom Board',
-        tags: ['PCB Design', 'IoT', 'Hardware'],
-        problem: 'Needed a custom footprint and specialized I/O for an IoT application without the bulk of a standard dev board.',
-        deliverables: ['Schematic', 'Gerbers', 'BOM', 'Basic firmware test suite'],
-        decisions: [
-            'Used ESP32-WROOM-32E module for integrated WiFi/BT and FCC certification.',
-            'Added CP2102N for reliable USB-to-UART bridge.',
-            'Included a LiPo charging circuit for battery operation.'
+    'cleave': {
+        title: 'CLEAVE',
+        tags: ['RISC-V', 'Verilog', 'Yosys', 'OpenROAD/LibreLane', 'Magic', 'sky130'],
+        problem: 'A from-scratch RISC-V core hardened through a full open-source RTL-to-GDSII flow.',
+        deliverables: [
+            'RV32I single-cycle core (Verilog)',
+            'DRC/LVS-clean sky130 GDSII',
+            'TinyTapeout 1x1 tile',
+            '10 self-checking Icarus Verilog benches'
         ],
-        github: 'https://github.com/badr'
+        decisions: [
+            'Implemented the full RV32I base integer ISA across a modular datapath: PC, 32x32 register file, ALU, immediate generator, branch comparator, control unit, and byte-addressable data memory.',
+            'Hardened the RTL to a DRC/LVS-clean sky130 GDSII through a full open-source flow — Yosys synthesis, OpenROAD/LibreLane place-and-route and CTS, Magic/KLayout/netgen sign-off — at a 25 MHz target, packaged as a TinyTapeout 1x1 tile.',
+            'Verified every module and the integrated core with 10 self-checking Icarus Verilog benches (9 unit + a full-ISA integration proof), validating ALU ops, store/load round-trips, all branch conditions, and JAL/JALR against hand-computed values through a debug port.'
+        ],
+        github: 'https://github.com/Badr-0b'
     },
-    'stm32n6-schematic': {
-        title: 'STM32N6 Schematic',
-        tags: ['Schematic', 'Microcontroller'],
-        problem: 'Required a high-performance neural processing microcontroller schematic layout for an edge AI application.',
-        deliverables: ['Full Schematic', 'Component Selection'],
+    'nerona': {
+        title: 'NERONA',
+        tags: ['KiCad', 'STM32N6', 'MIPI CSI-2', 'STM32CubeMX'],
+        problem: 'A custom PCB targeting the STM32N6 NPU for on-device computer-vision inference with no cloud dependency.',
+        deliverables: ['Schematic', 'PCB layout', 'NPU model-deployment path'],
         decisions: [
-            'Selected STM32N6 for its integrated NPU.',
-            'Designed power delivery network to handle transient loads from the NPU.'
+            'Designed PCB power delivery, a MIPI CSI-2 camera interface, and the memory subsystem around the STM32N6 NPU for accelerated on-device CV inference.',
+            'Completed schematic and layout in KiCad under signal-integrity and EMC rules.',
+            'Built the deployment path for quantized object-detection models onto the NPU via STM32CubeMX.'
         ],
-        github: 'https://github.com/badr'
+        github: 'https://github.com/Badr-0b'
     },
-    'analog-asic': {
-        title: 'Analog ASIC',
-        tags: ['ASIC', 'Analog'],
-        problem: 'Needed a custom low-noise amplifier integrated circuit for signal processing.',
-        deliverables: ['Circuit Design', 'Simulation Results', 'Layout'],
+    'azimuth': {
+        title: 'AZIMUTH',
+        tags: ['KiCad', 'ESP32-S3', 'GNSS', 'IMU', 'Sensor Fusion'],
+        problem: 'A custom multi-sensor navigation board with defined sensor roles and redundancy planning.',
+        deliverables: ['Navigation board schematic + layout', 'Sensor-role fusion plan', 'GNSS-dropout fallback plan'],
         decisions: [
-            'Utilized 180nm process node for cost efficiency while meeting noise requirements.',
-            'Implemented a folded-cascode architecture for high gain.'
+            'Assigned each sensor a defined role: GNSS for position, magnetometer for heading, IMU accelerometer for tilt correction, and gyroscope for smoothing.',
+            'Planned IMU dead-reckoning as a fallback for continuous heading and motion estimation during GNSS dropout, so navigation degrades gracefully rather than failing on single-sensor loss.'
         ],
-        github: 'https://github.com/badr'
-    },
-    'logic-gate-asic': {
-        title: 'Logic-gate ASIC',
-        tags: ['ASIC', 'Digital', 'Logic'],
-        problem: 'Designed a fundamental digital logic block for educational and verification purposes.',
-        deliverables: ['RTL Code', 'Synthesis Scripts', 'Testbench'],
-        decisions: [
-            'Wrote RTL in Verilog for standard industry compatibility.',
-            'Used open-source synthesis tools to verify logic gates.'
-        ],
-        github: 'https://github.com/badr'
-    },
-    'feneris': {
-        title: 'Feneris',
-        tags: ['Full-stack', 'Next.js', 'React', 'SaaS'],
-        problem: 'Wanted to build a complete SaaS product handling authentication, database, and payments to demonstrate full-stack capabilities.',
-        deliverables: ['Web Application', 'API Routes', 'Database Schema'],
-        decisions: [
-            'Chose Next.js for SSR and fast page loads.',
-            'Implemented custom authentication flow.',
-            'Integrated Stripe for subscription management.'
-        ],
-        github: 'https://github.com/badr'
+        github: 'https://github.com/Badr-0b'
     }
 };
 

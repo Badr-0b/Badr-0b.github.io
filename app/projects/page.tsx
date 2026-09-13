@@ -9,34 +9,22 @@ export default function Projects() {
 
     const projects = [
         {
-            slug: 'esp32-custom-board',
-            title: 'ESP32 Custom Board',
-            description: 'Custom development board based on ESP32.',
-            tags: ['PCB Design', 'IoT', 'Hardware'],
+            slug: 'cleave',
+            title: 'CLEAVE',
+            description: 'From-scratch RV32I RISC-V core hardened to a sky130 GDSII through a full open-source RTL-to-GDSII flow.',
+            tags: ['RISC-V', 'Verilog', 'sky130'],
         },
         {
-            slug: 'stm32n6-schematic',
-            title: 'STM32N6 Schematic',
-            description: 'Schematic design for STM32N6-based system.',
-            tags: ['Schematic', 'Microcontroller'],
+            slug: 'nerona',
+            title: 'NERONA',
+            description: 'Custom PCB targeting the STM32N6 NPU for on-device computer-vision inference with no cloud dependency.',
+            tags: ['KiCad', 'STM32N6', 'MIPI CSI-2'],
         },
         {
-            slug: 'analog-asic',
-            title: 'Analog ASIC',
-            description: 'Custom analog integrated circuit design.',
-            tags: ['ASIC', 'Analog'],
-        },
-        {
-            slug: 'logic-gate-asic',
-            title: 'Logic-gate ASIC',
-            description: 'Digital logic-gate ASIC design.',
-            tags: ['ASIC', 'Digital', 'Logic'],
-        },
-        {
-            slug: 'feneris',
-            title: 'Feneris',
-            description: 'SaaS platform.',
-            tags: ['Full-stack', 'Next.js', 'React'],
+            slug: 'azimuth',
+            title: 'AZIMUTH',
+            description: 'Multi-sensor ESP32-S3 navigation board with defined sensor roles and GNSS-dropout redundancy planning.',
+            tags: ['KiCad', 'ESP32-S3', 'Sensor Fusion'],
         }
     ];
 

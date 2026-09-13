@@ -8,9 +8,9 @@ import Entrance from './components/Entrance';
 import './home.css';
 
 const projects = [
-    { slug: 'esp32-custom-board', title: 'ESP32 Custom Board', tag: 'PCB / IOT' },
-    { slug: 'analog-asic', title: 'Analog ASIC', tag: 'ASIC' },
-    { slug: 'feneris', title: 'Feneris', tag: 'SAAS' },
+    { slug: 'cleave', title: 'CLEAVE', tag: 'RISC-V / SILICON' },
+    { slug: 'nerona', title: 'NERONA', tag: 'PCB / EDGE AI' },
+    { slug: 'azimuth', title: 'AZIMUTH', tag: 'PCB / SENSOR FUSION' },
 ];
 
 export default function Home() {
@@ -107,12 +107,33 @@ export default function Home() {
                     </div>
                 </section>
 
+                {/* ---- EXPERIENCE ---- */}
+                <section className="section experience">
+                    <div className="section__label-col">
+                        <Reveal>
+                            <p className="label">
+                                {t('home.experience.title')} <span className="section__idx">/ 02</span>
+                            </p>
+                        </Reveal>
+                    </div>
+                    <div className="section__content">
+                        <Reveal>
+                            <div className="exp__item">
+                                <h3 className="exp__org">Lear Corporation — E-Systems</h3>
+                                <p className="exp__meta">Software Engineering Intern, Embedded DevOps · Summer 2026</p>
+                                <p className="exp__note">Build &amp; release engineering for automotive electronic-systems validation.</p>
+                                <p className="exp__highlight">Cut a hardware-in-the-loop validation pass from ~5.5 h to ~5 min by re-architecting the test runner to execute in parallel.</p>
+                            </div>
+                        </Reveal>
+                    </div>
+                </section>
+
                 {/* ---- STATEMENT (+ capabilities as a whisper) ---- */}
                 <section className="section statement">
                     <div className="section__label-col">
                         <Reveal>
                             <p className="label">
-                                {t('nav.about')} <span className="section__idx">/ 02</span>
+                                {t('nav.about')} <span className="section__idx">/ 03</span>
                             </p>
                         </Reveal>
                     </div>
@@ -136,7 +157,7 @@ export default function Home() {
                     <div className="section__label-col">
                         <Reveal>
                             <p className="label">
-                                {t('nav.connect')} <span className="section__idx">/ 03</span>
+                                {t('nav.connect')} <span className="section__idx">/ 04</span>
                             </p>
                         </Reveal>
                     </div>
