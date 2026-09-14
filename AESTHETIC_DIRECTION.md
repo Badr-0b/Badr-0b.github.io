@@ -52,12 +52,14 @@ reveal**, not any rarity iconography. Sequence:
    it is just the site.
 
 **Non-negotiable behaviors:**
-- **Skippable.** Any click / scroll / keypress jumps straight to the settled state.
-- **Once-only.** Gate with `localStorage` (e.g. `domain.entered`). Returning visitors get a much
-  shorter beat or none — never trap someone behind the animation twice.
+- **Skippable.** Any click / scroll / keypress jumps straight to the settled state. This is what
+  keeps replaying it safe — a returning visitor is never *trapped* behind it.
+- **Plays every visit.** (Per Badr's call, overriding the old once-only gate.) No `localStorage`
+  gate; the full ritual runs on every load. Because it stays skippable and reduced-motion-safe,
+  no one is ever forced to sit through it twice.
 - **Reduced-motion.** `prefers-reduced-motion: reduce` → skip the build-up entirely, render the
   settled hero immediately.
-- **Total length** ~2.5–3.5s on first visit, and never blocking (content is present, just revealed).
+- **Total length** ~2.5–3.5s per visit, and never blocking (content is present, just revealed).
 
 **Forbidden here:** literal ★ ratings or a `★★★★★★` burst, confetti/particles, a "pull" card
 flip, "Domain Expansion" text or anime art, sound-on-load. The reference is an easter egg of
@@ -290,8 +292,8 @@ The copy obeys the same discipline as the design: spare, confident, evidence-led
 - **Never exceed three fonts** (Clash Display · Satoshi · Space Mono) + the defined script fallbacks.
 - **No decorative gradients** (the single entrance sheen is the only exception).
 - **No pure `#000` / `#FFF`.**
-- The **entrance must stay skippable, once-only, and reduced-motion-safe** — never re-block a
-  returning visitor.
+- The **entrance must stay skippable and reduced-motion-safe** — it plays every visit, so those
+  two escapes are what keep a returning visitor from ever being trapped behind it.
 - **Motion stays one language.** Go heavy on scroll-driven interactivity, but never fork into a
   second easing/vibe, drop below 60fps, or hijack the user's real scroll (§5, §7).
 - No stock photography; use negative space or large type instead.
@@ -316,5 +318,5 @@ The copy obeys the same discipline as the design: spare, confident, evidence-led
 | Negative space | black space (default) = cinematic spotlight; white space (light mode) = airy/editorial — behaves differently, spec on purpose |
 | Motion | pervasive scroll-driven (reveals · scrubbed · pinned) under ONE easing `cubic-bezier(0.16,1,0.3,1)`; 60fps, transform/opacity only |
 | Cursor | accent dot → ring reticle, lerp ~0.12, desktop only |
-| Entrance | void → charge → "welcome to my domain" + one sheen → settle; skippable, once-only |
+| Entrance | void → charge → "welcome to my domain" + one sheen → settle; skippable, plays every visit |
 | Build constraints | Next.js static export · multilingual en/fr/ar/ja/zh · Arabic RTL |

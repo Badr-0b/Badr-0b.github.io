@@ -6,7 +6,6 @@ import './Entrance.css';
 
 type Phase = 'init' | 'void' | 'charge' | 'reveal' | 'settle' | 'done';
 
-const KEY = 'domain.entered';
 const T_VOID = 850;
 const T_CHARGE = 650;
 const T_REVEAL = 1100;
@@ -20,7 +19,7 @@ interface EntranceProps {
 /**
  * The "6-star pull" entrance — FELT, NOT SHOWN (AESTHETIC_DIRECTION.md §2).
  * void -> charge -> "welcome to my domain" + one specular sheen -> settle.
- * Skippable (click / key / scroll), once-only (localStorage), reduced-motion safe.
+ * Skippable (click / key / scroll), replays every visit, reduced-motion safe.
  * Calls onDone once at the settle handoff so the hero can compose in as the void dissolves.
  */
 export default function Entrance({ onDone }: EntranceProps) {
@@ -46,11 +45,6 @@ export default function Entrance({ onDone }: EntranceProps) {
 
     const finish = useCallback(() => {
         clearTimers();
-        try {
-            localStorage.setItem(KEY, '1');
-        } catch {
-            /* private mode — fine, it just replays next time */
-        }
         document.body.classList.remove('entrance-lock');
         setPhase('done');
     }, [clearTimers]);
@@ -70,13 +64,9 @@ export default function Entrance({ onDone }: EntranceProps) {
     // schedule the ritual
     useEffect(() => {
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        let seen = false;
-        try {
-            seen = localStorage.getItem(KEY) === '1';
-        } catch {
-            /* ignore */
-        }
-        if (seen || reduce) {
+        // Plays every visit (per Badr's request) — no once-only localStorage gate. It stays
+        // skippable and reduced-motion-safe, so a returning visitor is never trapped behind it.
+        if (reduce) {
             setPhase('done');
             fireDone();
             return;
