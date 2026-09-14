@@ -30,7 +30,8 @@ export default function RootLayout({
                     No-JS keeps everything visible. */}
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: "document.documentElement.classList.add('js')",
+                        __html:
+                            "(function(){try{var t=localStorage.getItem('portfolio-theme');if(t==='light')document.documentElement.classList.add('light');else if(t==='dark')document.documentElement.classList.remove('light');}catch(e){}document.documentElement.classList.add('js');})()",
                     }}
                 />
                 {/* Display + body faces (Fontshare). Self-hosting via next/font/local is the

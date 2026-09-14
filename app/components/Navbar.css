@@ -214,11 +214,140 @@
     transform: translateY(0);
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* ============================================================================
+   RAIL MODE — the projects page turns the top bar into a left vertical rail
+   (desktop only). Animated in on load: divider draws down, items settle from
+   the top. Transform/opacity only, one easing (§5). Mobile keeps the top bar.
+   ============================================================================ */
 @media (min-width: 761px) {
+    .nav--rail {
+        top: 0;
+        left: 0;
+        right: auto;
+        width: var(--rail-w);
+        height: 100vh;
+        height: 100svh;
+        border-bottom: none;
+        background: var(--bg); /* opaque so panning tiles slide behind it */
+        transition: background 0.3s ease;
+    }
+    [dir='rtl'] .nav--rail {
+        left: auto;
+        right: 0;
+    }
+    /* divider line — present on warm nav; on a cold load it draws down (below) */
+    .nav--rail::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 100%;
+        background: var(--border);
+        transform: scaleY(1);
+        transform-origin: top;
+        transition: transform 0.9s var(--ease-luxury);
+    }
+    [dir='rtl'] .nav--rail::after {
+        right: auto;
+        left: 0;
+    }
+    .nav--rail-cold::after {
+        transform: scaleY(0);
+    }
+    .nav--rail-cold.nav--rail-in::after {
+        transform: scaleY(1);
+    }
+
+    .nav--rail .nav__brand {
+        font-size: 0.74rem;
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+    }
+    .nav--rail .nav__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: 100%;
+        gap: clamp(30px, 5vh, 64px);
+        padding: clamp(26px, 3.6vh, 44px) clamp(20px, 1.5vw, 30px);
+    }
+    .nav--rail .nav__links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: clamp(13px, 1.7vh, 20px);
+    }
+    .nav--rail .nav__links a,
+    .nav--rail .nav__link-btn {
+        font-size: 0.74rem;
+    }
+    .nav--rail .nav__tools {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-top: auto; /* anchor tools to the bottom of the rail */
+    }
+    /* language menu opens upward at the bottom of the rail, never clipped */
+    .nav--rail .lang-dropdown {
+        top: auto;
+        bottom: calc(100% + 0.5rem);
+        transform: translateY(8px);
+    }
+    .nav--rail .lang-dropdown.open {
+        transform: translateY(0);
+    }
+
+    /* ---- COLD entrance: brand + links + tools settle from the top, staggered ----
+       (only on a direct load of /projects; warm navigation uses the JS FLIP instead) */
+    .nav--rail-cold .nav__brand,
+    .nav--rail-cold .nav__links li,
+    .nav--rail-cold .nav__tools {
+        opacity: 0;
+        transform: translateY(-16px);
+        transition: opacity 0.6s var(--ease-luxury), transform 0.6s var(--ease-luxury);
+    }
+    .nav--rail-cold.nav--rail-in .nav__brand,
+    .nav--rail-cold.nav--rail-in .nav__links li,
+    .nav--rail-cold.nav--rail-in .nav__tools {
+        opacity: 1;
+        transform: none;
+    }
+    .nav--rail-cold.nav--rail-in .nav__brand {
+        transition-delay: 0.08s;
+    }
+    .nav--rail-cold.nav--rail-in .nav__links li:nth-child(1) {
+        transition-delay: 0.22s;
+    }
+    .nav--rail-cold.nav--rail-in .nav__links li:nth-child(2) {
+        transition-delay: 0.3s;
+    }
+    .nav--rail-cold.nav--rail-in .nav__links li:nth-child(3) {
+        transition-delay: 0.38s;
+    }
+    .nav--rail-cold.nav--rail-in .nav__links li:nth-child(4) {
+        transition-delay: 0.46s;
+    }
+    .nav--rail-cold.nav--rail-in .nav__tools {
+        transition-delay: 0.54s;
+    }
+
     /* keep the overlay out of the desktop layout entirely */
     .nav__overlay {
         display: none;
+    }
+}
+
+@media (min-width: 761px) and (prefers-reduced-motion: reduce) {
+    .nav--rail::after {
+        transform: scaleY(1);
+        transition: none;
+    }
+    .nav--rail .nav__brand,
+    .nav--rail .nav__links li,
+    .nav--rail .nav__tools {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
 @media (max-width: 760px) {

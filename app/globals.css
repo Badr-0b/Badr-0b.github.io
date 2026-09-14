@@ -38,6 +38,7 @@
     --container: 1280px;
     --pad: clamp(24px, 5vw, 80px);
     --edge: clamp(20px, 3.2vw, 56px); /* full-bleed viewport-edge gutter */
+    --rail-w: clamp(126px, 11.5vw, 172px); /* projects-page left nav rail (desktop) */
 
     color-scheme: dark;
 }

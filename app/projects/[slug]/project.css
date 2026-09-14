@@ -1,0 +1,125 @@
+/* ===== /projects/[slug] — monolith detail =====
+   Two-column editorial splits (label left / content right), hairlines-not-boxes,
+   tokens only. Reveals on scroll via the shared Reveal component. */
+
+.pd {
+    padding: clamp(96px, 12vh, 140px) var(--edge) clamp(120px, 16vw, 220px);
+    max-width: var(--container);
+    margin: 0 auto;
+}
+
+.pd__back {
+    margin-bottom: clamp(40px, 6vw, 72px);
+}
+
+/* ---------- header ---------- */
+.pd__head {
+    padding-bottom: clamp(32px, 5vw, 56px);
+    border-bottom: 1px solid var(--border);
+}
+.pd__cat {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: clamp(14px, 2vw, 22px);
+}
+.pd__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+}
+.pd__tags {
+    list-style: none;
+    margin: clamp(22px, 3vw, 32px) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1vw, 12px);
+}
+.pd__tag {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0.5em 0.85em;
+    border: 1px solid var(--border);
+}
+
+/* ---------- sections: label col left / content right ---------- */
+.pd__section {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.7fr) minmax(0, 4fr);
+    gap: clamp(24px, 5vw, 80px);
+    align-items: start;
+    padding: clamp(48px, 7vw, 88px) 0;
+    border-bottom: 1px solid var(--border);
+}
+.pd__section--links {
+    border-bottom: 0;
+}
+.pd__label {
+    color: var(--text-dim);
+}
+.pd__content {
+    min-width: 0;
+}
+.pd__lead {
+    max-width: 56ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+/* ---------- lists ---------- */
+.pd__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.pd__list-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(16px, 2.4vw, 30px);
+    padding: clamp(16px, 2vw, 24px) 0;
+    border-top: 1px solid var(--border);
+}
+.pd__list-item:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+.pd__list-idx {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    padding-top: 0.25em;
+}
+.pd__list-text {
+    color: var(--text);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    line-height: 1.55;
+}
+.pd__list--prose .pd__list-text {
+    max-width: 70ch;
+    color: var(--text-dim);
+}
+
+/* ---------- responsive: collapse to single column ---------- */
+@media (max-width: 720px) {
+    .pd__section {
+        grid-template-columns: 1fr;
+        gap: clamp(18px, 4vw, 28px);
+    }
+    .pd__label {
+        margin-bottom: 4px;
+    }
+}

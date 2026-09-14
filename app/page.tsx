@@ -6,13 +6,12 @@ import { useLanguage } from './components/LanguageContext';
 import Entrance from './components/Entrance';
 import ScrollProgress from './components/ScrollProgress';
 import { useHomeJourney } from './components/useHomeJourney';
+import { projects as projectData } from './projects/projects.data';
 import './home.css';
 
-const projects = [
-    { slug: 'cleave', title: 'CLEAVE', tag: 'RISC-V / SILICON' },
-    { slug: 'nerona', title: 'NERONA', tag: 'PCB / EDGE AI' },
-    { slug: 'azimuth', title: 'AZIMUTH', tag: 'PCB / SENSOR FUSION' },
-];
+// Selected Work strip — the same source of truth as /projects and the detail pages,
+// so titles/categories never drift. Shape kept minimal for the home gallery.
+const projects = projectData.map((p) => ({ slug: p.slug, title: p.title, tag: p.category }));
 
 export default function Home() {
     const { t } = useLanguage();
