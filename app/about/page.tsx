@@ -1,60 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import { statSync } from 'node:fs';
+import path from 'node:path';
+import AboutPage from './AboutPage';
+import './about.css';
 
-import React from 'react';
-import Link from 'next/link';
-import { useLanguage } from '../components/LanguageContext';
+export const metadata: Metadata = {
+    title: 'About — Badr Obtel',
+    description:
+        'Electrical engineering, third year at AUM, Kuwait. A RISC-V core taken from RTL to GDSII, boards laid out in KiCad, and the test tooling that validates them.',
+};
 
-export default function About() {
-    const { t } = useLanguage();
+/** Read at build time (static export), so the label never drifts from the real file. */
+function resumeSize(): string | null {
+    try {
+        const bytes = statSync(path.join(process.cwd(), 'public', 'badr-obtel-resume.pdf')).size;
+        return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+    } catch {
+        return null;
+    }
+}
 
-    return (
-        <main>
-            <header>
-                <h1>{t('about.title')}</h1>
-            </header>
-
-            <section className="who-you-are">
-                <p>{t('about.who')}</p>
-            </section>
-
-            <section className="what-you-work-with" style={{ display: 'flex', gap: '4rem', margin: '2rem 0' }}>
-                <div>
-                    <h2>{t('about.stack.hardware')}</h2>
-                    <ul>
-                        <li>KiCad</li>
-                        <li>ESP32</li>
-                        <li>STM32</li>
-                        <li>ASIC design tools</li>
-                        <li>FPGA toolchains</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>{t('about.stack.software')}</h2>
-                    <ul>
-                        <li>Embedded C</li>
-                        <li>VHDL/Verilog</li>
-                        <li>Next.js / React</li>
-                        <li>TypeScript</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section className="currently">
-                <h2>Currently</h2>
-                <p>{t('about.currently')}</p>
-            </section>
-
-            <section className="feneris-mention">
-                <p>
-                    {t('about.feneris')} <a href="https://feneris.app" target="_blank" rel="noreferrer">Visit feneris.app</a>
-                </p>
-            </section>
-
-            <section className="resume-download" style={{ marginTop: '3rem' }}>
-                <a href="/dummy-resume.pdf" download>
-                    <button>{t('about.resume.download')}</button>
-                </a>
-            </section>
-        </main>
-    );
+export default function Page() {
+    const built = new Date();
+    const rev = `${String(built.getFullYear()).slice(2)}.${String(built.getMonth() + 1).padStart(2, '0')}`;
+    return <AboutPage resumeSize={resumeSize()} rev={rev} year={String(built.getFullYear())} />;
 }

@@ -6,10 +6,12 @@ import './CustomCursor.css';
 /**
  * Reticle cursor — a small accent dot that expands into a ring over interactive
  * elements, chasing the pointer with a weighted lag. Desktop (fine pointer) only.
- * See AESTHETIC_DIRECTION.md §7.
+ * Opt-in: an interactive element with data-cursor="Copy" shows that word in mono
+ * caps beside the ring. See AESTHETIC_DIRECTION.md §7.
  */
 export default function CustomCursor() {
     const dotRef = useRef<HTMLDivElement>(null);
+    const labelRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         const mq = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -38,10 +40,22 @@ export default function CustomCursor() {
             }
         };
         const onOver = (e: MouseEvent) => {
-            if ((e.target as Element)?.closest?.(interactive)) dot.classList.add('is-hover');
+            const target = e.target as Element;
+            if (!target?.closest?.(interactive)) return;
+            dot.classList.add('is-hover');
+            const text = target.closest('[data-cursor]')?.getAttribute('data-cursor');
+            const label = labelRef.current;
+            if (text && label) {
+                label.textContent = text;
+                dot.classList.add('has-label');
+            } else {
+                dot.classList.remove('has-label');
+            }
         };
         const onOut = (e: MouseEvent) => {
-            if ((e.target as Element)?.closest?.(interactive)) dot.classList.remove('is-hover');
+            if ((e.target as Element)?.closest?.(interactive)) {
+                dot.classList.remove('is-hover', 'has-label');
+            }
         };
         const onLeave = () => {
             visible = false;
@@ -71,5 +85,9 @@ export default function CustomCursor() {
         };
     }, []);
 
-    return <div className="cursor-dot" ref={dotRef} aria-hidden="true" />;
+    return (
+        <div className="cursor-dot" ref={dotRef} aria-hidden="true">
+            <span className="cursor-dot__label" ref={labelRef} />
+        </div>
+    );
 }

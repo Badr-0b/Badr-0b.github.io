@@ -26,6 +26,33 @@
     border-color: var(--accent);
 }
 
+/* opt-in label beside the reticle (data-cursor="…") */
+.cursor-dot__label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 10px);
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    transform: translate3d(-4px, -50%, 0);
+    transition: opacity 0.25s var(--ease-luxury), transform 0.35s var(--ease-luxury);
+    pointer-events: none;
+}
+[dir='rtl'] .cursor-dot__label {
+    left: auto;
+    right: calc(100% + 10px);
+    transform: translate3d(4px, -50%, 0);
+}
+.cursor-dot.has-label .cursor-dot__label {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0);
+}
+
 /* touch / coarse pointers never see it */
 @media (hover: none), (pointer: coarse) {
     .cursor-dot {
