@@ -13,7 +13,7 @@ import {
     reducedMotion,
     span,
     wake,
-} from '../motion';
+} from '../../kit/motion';
 
 type Tag = { name: string; note: string };
 

@@ -38,7 +38,6 @@
     --container: 1280px;
     --pad: clamp(24px, 5vw, 80px);
     --edge: clamp(20px, 3.2vw, 56px); /* full-bleed viewport-edge gutter */
-    --rail-w: clamp(126px, 11.5vw, 172px); /* projects-page left nav rail (desktop) */
 
     color-scheme: dark;
 }
@@ -141,18 +140,6 @@ a {
     text-transform: uppercase;
     color: var(--text-dim);
     margin: 0;
-}
-
-/* ---- scroll reveal (see AESTHETIC_DIRECTION.md §5) ---- */
-.reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury);
-    will-change: opacity, transform;
-}
-.reveal.in {
-    opacity: 1;
-    transform: none;
 }
 
 /* ---- buttons / links ---- */
@@ -266,11 +253,6 @@ body.modal-lock {
 
 /* ---- accessibility: honor reduced motion everywhere ---- */
 @media (prefers-reduced-motion: reduce) {
-    .reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
     *,
     *::before,
     *::after {

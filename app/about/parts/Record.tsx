@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, type CSSProperties } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import { GPA, record } from '../about.data';
-import { ease, onFrame, onMeasure, reducedMotion, span } from '../motion';
+import { ease, onFrame, onMeasure, reducedMotion, span } from '../../kit/motion';
 
 /** Layout position of a node's centre inside the timeline — offsetTop ignores the
  *  reveal transforms, so the rails always meet the nodes where they settle. */

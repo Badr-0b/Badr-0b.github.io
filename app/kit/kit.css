@@ -1,0 +1,823 @@
+/* ===========================================================================
+   The kit — shared visual assets (drawings, plates, marks). Tokens only, one
+   curve, hairlines never boxes. Ink levels are stroke-opacity, so `opacity`
+   stays free for the build animation. Scoped under .k-* so nothing leaks.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Plate
+   --------------------------------------------------------------------------- */
+.k-plate {
+    position: relative;
+    margin: 0;
+    color: var(--text-dim);
+    container-type: inline-size;
+    transition: color 0.3s ease;
+}
+.k-plate__frame {
+    position: relative;
+}
+.k-plate__svg {
+    --k: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    direction: ltr; /* drawings are objects: they never mirror, and their labels read LTR */
+    unicode-bidi: isolate;
+}
+.k-plate__svg path,
+.k-plate__svg circle,
+.k-plate__svg rect {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--k);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ink — the one vocabulary every drawing uses */
+.k-ink--edge path {
+    stroke-opacity: 0.95;
+}
+.k-ink--mid path {
+    stroke-opacity: 0.52;
+}
+.k-ink--fine path {
+    stroke-opacity: 0.34;
+}
+.k-ink--faint path {
+    stroke-opacity: 0.2;
+}
+.k-ink--trace path {
+    stroke-opacity: 0.68;
+}
+.k-ink--hot path {
+    stroke: var(--text);
+    stroke-opacity: 0.86;
+}
+.k-ink--dash path {
+    stroke-opacity: 0.42;
+    stroke-dasharray: calc(var(--k) * 3) calc(var(--k) * 3.5);
+}
+.k-ink--dot path {
+    stroke-width: 2.3; /* drawing units: pads scale with the board */
+    stroke-opacity: 0.55;
+}
+.k-ink--via path {
+    stroke-opacity: 0.42;
+}
+.k-ink--wide path {
+    stroke-width: 5;
+    stroke-opacity: 0.16;
+}
+.k-ink--mask path {
+    fill: var(--bg);
+    stroke: none;
+    transition: fill 0.3s ease;
+}
+/* draw-on paths: one dash as long as the path (pathLength=1), slid into place */
+.k-plate__svg .k-draw {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+}
+
+/* build start-states, gated on .js so no-JS shows the finished drawing */
+.js .k-plate [data-a] {
+    opacity: 0;
+}
+.js .k-plate .k-draw {
+    stroke-dashoffset: 1;
+}
+.js .k-plate [data-b] {
+    opacity: 0;
+}
+.k-plate__ink {
+    transition: opacity 0.45s var(--ease-luxury);
+}
+.k-plate.has-on .k-plate__ink {
+    opacity: 0.42;
+}
+
+/* labels — constant size on screen whatever the plate's scale */
+.k-label {
+    font-family: var(--font-mono);
+    font-size: calc(8.5px * var(--k));
+    letter-spacing: 0.08em;
+    fill: currentColor;
+    fill-opacity: 0.72;
+    stroke: none;
+}
+.k-label--9 {
+    font-size: calc(9px * var(--k));
+}
+.k-label--faint {
+    fill-opacity: 0.46;
+}
+.k-label--hot {
+    fill: var(--text);
+    fill-opacity: 0.92;
+}
+
+/* parts — inspectable; the hit area lights like a selection in an EDA tool */
+.k-part > path {
+    stroke: var(--accent);
+    stroke-opacity: 0;
+    stroke-width: calc(var(--k) * 1.4);
+    transition: stroke-opacity 0.3s var(--ease-luxury);
+}
+.k-part .k-hit {
+    fill: var(--accent);
+    fill-opacity: 0;
+    stroke: none;
+    pointer-events: all;
+    transition: fill-opacity 0.3s var(--ease-luxury);
+}
+.k-part.is-on > path {
+    stroke-opacity: 1;
+}
+.k-part.is-on .k-hit {
+    fill-opacity: 0.06;
+}
+
+/* balloons — numbered callouts tying a part to a note elsewhere */
+.k-balloon {
+    cursor: pointer;
+}
+.k-balloon__leader {
+    stroke-opacity: 0.4;
+    transition: stroke 0.3s var(--ease-luxury), stroke-opacity 0.3s var(--ease-luxury);
+}
+.k-plate__svg .k-balloon__tip {
+    stroke-width: calc(var(--k) * 3.5);
+    transition: stroke 0.3s var(--ease-luxury);
+}
+.k-plate__svg .k-balloon__ring {
+    r: calc(var(--k) * 8.5);
+    fill: var(--bg);
+    stroke-opacity: 0.7;
+    transition: stroke 0.3s var(--ease-luxury), stroke-opacity 0.3s var(--ease-luxury), fill 0.3s ease;
+}
+.k-balloon__n {
+    font-family: var(--font-mono);
+    font-size: calc(8.5px * var(--k));
+    text-anchor: middle;
+    dominant-baseline: central;
+    fill: var(--text);
+    stroke: none;
+    transition: fill 0.3s var(--ease-luxury);
+}
+.k-balloon.is-on .k-balloon__leader,
+.k-balloon.is-on .k-balloon__tip,
+.k-balloon.is-on .k-balloon__ring {
+    stroke: var(--accent);
+    stroke-opacity: 1;
+}
+.k-balloon.is-on .k-balloon__n {
+    fill: var(--accent);
+}
+
+/* corner marks — the plate's frame is four corners, never a box */
+.k-corner {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    border: 0 solid var(--text-faint);
+    pointer-events: none;
+    transition: transform 1s var(--ease-luxury), opacity 0.7s var(--ease-luxury);
+}
+.k-corner--tl {
+    top: -16px;
+    left: -16px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+}
+.k-corner--tr {
+    top: -16px;
+    right: -16px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+}
+.k-corner--bl {
+    bottom: -16px;
+    left: -16px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+.k-corner--br {
+    bottom: -16px;
+    right: -16px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+/* before the build starts the corners stand off; they lock on as it begins */
+.js .k-plate[data-stage='-1'] .k-corner {
+    opacity: 0;
+}
+.js .k-plate[data-stage='-1'] .k-corner--tl {
+    transform: translate3d(-8px, -8px, 0);
+}
+.js .k-plate[data-stage='-1'] .k-corner--tr {
+    transform: translate3d(8px, -8px, 0);
+}
+.js .k-plate[data-stage='-1'] .k-corner--bl {
+    transform: translate3d(-8px, 8px, 0);
+}
+.js .k-plate[data-stage='-1'] .k-corner--br {
+    transform: translate3d(8px, 8px, 0);
+}
+
+/* probe — what the pointer is on */
+.k-plate__probe {
+    position: absolute;
+    bottom: calc(100% + 22px);
+    left: 0;
+    right: 0;
+    min-height: 1.4em;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.k-plate__probe-in {
+    display: inline-flex;
+    gap: 12px;
+    animation: k-in 0.45s var(--ease-luxury) both;
+}
+.k-plate__probe-name {
+    color: var(--accent);
+}
+.k-plate__probe-note {
+    color: var(--text);
+    letter-spacing: 0.06em;
+    text-transform: none;
+}
+.k-plate__probe-idle {
+    display: inline-block;
+    animation: k-in 0.45s var(--ease-luxury) both;
+}
+
+/* strip — the view, then the build stages and their progress */
+.k-plate__strip {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: 24px;
+    row-gap: 10px;
+    margin-top: 26px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    line-height: 1.3;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.k-plate__view {
+    white-space: nowrap;
+}
+.k-plate__stages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.k-plate__stage {
+    display: inline-flex;
+    gap: 7px;
+    white-space: nowrap;
+    transition: color 0.45s var(--ease-luxury);
+}
+.k-plate__stage-n {
+    transition: color 0.45s var(--ease-luxury);
+}
+.k-plate__stage[data-state='done'] {
+    color: var(--text-dim);
+}
+.k-plate__stage[data-state='on'] {
+    color: var(--text);
+}
+.k-plate__stage[data-state='on'] .k-plate__stage-n {
+    color: var(--accent);
+}
+.k-plate__rule {
+    position: relative;
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--border);
+}
+.k-plate__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--text-dim);
+    transform-origin: left center;
+}
+.js .k-plate__fill {
+    transform: scaleX(0);
+}
+[dir='rtl'] .k-plate__fill {
+    transform-origin: right center;
+}
+@container (max-width: 560px) {
+    .k-plate__stage:not([data-state='on']) .k-plate__stage-name {
+        display: none;
+    }
+    .k-plate__stages {
+        gap: 6px 12px;
+    }
+}
+/* narrowest plates: only the stage being drawn; the rule beneath carries the rest */
+@container (max-width: 420px) {
+    .k-plate__stage:not([data-state='on']) {
+        display: none;
+    }
+}
+
+@keyframes k-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 5px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .k-plate__probe-in,
+    .k-plate__probe-idle {
+        animation: none;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Reveal system — any page root with .k-scope opts in (useReveal adds .is-in).
+   Gated on .js so no-JS shows everything. One curve.
+   --------------------------------------------------------------------------- */
+.js .k-scope [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+    transition: opacity 0.9s var(--ease-luxury) var(--d, 0ms), transform 0.9s var(--ease-luxury) var(--d, 0ms);
+}
+.js .k-scope [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+}
+.js .k-scope [data-reveal='fade'] {
+    transform: none;
+}
+/* mask: the observed element stays unclipped (a fully clipped element never reports as
+   intersecting); its inner .k-mask carries the clip-reveal */
+.js .k-scope [data-reveal='mask'] {
+    opacity: 1;
+    transform: none;
+}
+.k-mask {
+    display: block;
+}
+.js .k-scope [data-reveal='mask'] > .k-mask {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 24px, 0);
+    transition: clip-path 1.1s var(--ease-luxury) var(--d, 0ms), transform 1.1s var(--ease-luxury) var(--d, 0ms),
+        opacity 0.7s var(--ease-luxury) var(--d, 0ms);
+}
+.js .k-scope [data-reveal='mask'].is-in > .k-mask {
+    opacity: 1;
+    clip-path: inset(-0.2em -0.3em -0.3em -0.3em);
+    transform: none;
+}
+/* a hairline that draws across as it arrives */
+.js .k-scope [data-reveal='rule'] {
+    opacity: 1;
+    transform: none;
+}
+.js .k-scope [data-reveal='rule'] .k-rule {
+    transform: scaleX(0);
+    transition: transform 1.3s var(--ease-luxury) calc(var(--d, 0ms) + 80ms);
+}
+.js .k-scope [data-reveal='rule'].is-in .k-rule {
+    transform: scaleX(1);
+}
+.k-rule {
+    display: block;
+    height: 1px;
+    background: var(--border);
+    transform-origin: left center;
+}
+[dir='rtl'] .k-rule {
+    transform-origin: right center;
+}
+
+/* page-load composition (heroes) */
+.js .k-scope [data-in] {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+}
+.js .k-scope [data-in='mask'] {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 28px, 0);
+}
+.k-scope.is-ready [data-in] {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.9s var(--ease-luxury) var(--d, 0ms), transform 1s var(--ease-luxury) var(--d, 0ms);
+}
+.k-scope.is-ready [data-in='mask'] {
+    clip-path: inset(-0.15em -0.2em -0.25em -0.2em);
+    transition: clip-path 1.15s var(--ease-luxury) var(--d, 0ms), transform 1.15s var(--ease-luxury) var(--d, 0ms),
+        opacity 0.8s var(--ease-luxury) var(--d, 0ms);
+}
+
+.k-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   Copy button
+   --------------------------------------------------------------------------- */
+.k-copy {
+    position: relative;
+    display: inline-grid;
+    padding: 9px 14px;
+    background: none;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.3s var(--ease-luxury), border-color 0.3s var(--ease-luxury);
+}
+.k-copy > .k-copy__a,
+.k-copy > .k-copy__b {
+    grid-area: 1 / 1;
+    transition: transform 0.5s var(--ease-luxury), opacity 0.35s var(--ease-luxury);
+}
+.k-copy__b {
+    color: var(--accent);
+    opacity: 0;
+    transform: translate3d(0, 120%, 0);
+}
+.k-copy:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+}
+.k-copy.is-copied {
+    border-color: var(--accent);
+}
+.k-copy.is-copied .k-copy__a {
+    opacity: 0;
+    transform: translate3d(0, -120%, 0);
+}
+.k-copy.is-copied .k-copy__b {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Page index — fixed, lower corner
+   --------------------------------------------------------------------------- */
+.k-index {
+    position: fixed;
+    z-index: 600; /* under the nav (1000) and the cursor (10000) */
+    inset-inline-start: var(--edge);
+    bottom: clamp(14px, 3vh, 28px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 10px, 0);
+    transition: opacity 0.5s var(--ease-luxury), transform 0.6s var(--ease-luxury), visibility 0s linear 0.6s;
+}
+.k-index.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.5s var(--ease-luxury), transform 0.6s var(--ease-luxury), visibility 0s;
+}
+.k-index__btn {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 14px;
+    margin-inline-start: -14px;
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+}
+.k-index__num {
+    color: var(--text);
+}
+.k-index__of {
+    color: var(--text-faint);
+}
+.k-index__name {
+    display: inline-block;
+    min-width: 10ch;
+    color: var(--text-dim);
+    text-align: start;
+    transition: color 0.25s var(--ease-luxury);
+    animation: k-in 0.5s var(--ease-luxury) both;
+}
+.k-index__btn:hover .k-index__name {
+    color: var(--text);
+}
+.k-index__caret {
+    display: inline-block;
+    width: 1ch;
+    color: var(--text-faint);
+}
+.k-index__list {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    inset-inline-start: -14px;
+    min-width: 230px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 14px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 8px, 0);
+    transition: opacity 0.35s var(--ease-luxury), transform 0.45s var(--ease-luxury), visibility 0s linear 0.45s;
+}
+.k-index.is-open .k-index__list {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.35s var(--ease-luxury), transform 0.45s var(--ease-luxury), visibility 0s;
+}
+.k-index__item {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 8px 0;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+    transition: color 0.25s var(--ease-luxury), opacity 0.4s var(--ease-luxury) calc(var(--i, 0) * 40ms),
+        transform 0.5s var(--ease-luxury) calc(var(--i, 0) * 40ms);
+}
+.k-index.is-open .k-index__item {
+    opacity: 1;
+    transform: none;
+}
+.k-index__item-idx {
+    color: var(--text-faint);
+}
+.k-index__item:hover,
+.k-index__item.is-current {
+    color: var(--text);
+}
+.k-index__item.is-current .k-index__item-idx {
+    color: var(--accent);
+}
+@media (max-width: 720px) {
+    .k-index {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js .k-scope [data-reveal],
+    .js .k-scope [data-in],
+    .js .k-scope [data-reveal='mask'] > .k-mask {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+    }
+    .js .k-scope [data-reveal='rule'] .k-rule {
+        transform: none;
+    }
+    .k-index__name {
+        animation: none;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Bearing — the needle on a compass rose (AZIMUTH)
+   --------------------------------------------------------------------------- */
+.k-bearing {
+    opacity: 0;
+    color: var(--text-dim);
+    transition: opacity 0.8s var(--ease-luxury), color 0.35s var(--ease-luxury);
+    pointer-events: none;
+}
+.k-plate[data-built] .k-bearing {
+    opacity: 1;
+}
+.k-plate.has-on .k-bearing {
+    opacity: 0.35;
+}
+.k-bearing[data-live] {
+    color: var(--accent);
+}
+.k-plate__svg .k-bearing__needle,
+.k-plate__svg .k-bearing__head {
+    stroke: currentColor;
+    stroke-width: calc(var(--k) * 1.2);
+}
+.k-bearing__read {
+    font-family: var(--font-mono);
+    font-size: calc(9px * var(--k));
+    letter-spacing: 0.12em;
+    fill: currentColor;
+    stroke: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Bench — the 3D objects (index hero) and the flags that ride on them
+   --------------------------------------------------------------------------- */
+.k-bench {
+    position: absolute;
+    inset: 0;
+}
+.k-bench__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.k-bench__tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.k-bench__tag {
+    --lead: 54px;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 10px;
+    row-gap: 4px;
+    align-items: baseline;
+    padding: 6px 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: start;
+    color: var(--text-dim);
+    cursor: pointer;
+    opacity: 0;
+    /* sits above its anchor: the leader drops from the label to the part */
+    translate: -10px calc(-100% - var(--lead));
+    will-change: transform, opacity;
+    transition: color 0.35s var(--ease-luxury);
+}
+.k-bench__tag::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    width: 1px;
+    height: var(--lead);
+    background: var(--border);
+    transition: background-color 0.35s var(--ease-luxury);
+}
+.k-bench__tag::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + var(--lead) - 2.5px);
+    left: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--text-faint);
+    transition: background-color 0.35s var(--ease-luxury);
+}
+[dir='rtl'] .k-bench__tag {
+    translate: calc(-100% + 10px) calc(-100% - var(--lead));
+}
+[dir='rtl'] .k-bench__tag::after {
+    left: auto;
+    right: 10px;
+}
+[dir='rtl'] .k-bench__tag::before {
+    left: auto;
+    right: 8px;
+}
+.k-bench__tag-n {
+    grid-row: span 2;
+    color: var(--text-faint);
+    transition: color 0.35s var(--ease-luxury);
+}
+.k-bench__tag-name {
+    color: var(--text);
+}
+.k-bench__tag-note {
+    grid-column: 2;
+    font-size: 0.56rem;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+}
+.k-bench__tag.is-active .k-bench__tag-n {
+    color: var(--accent);
+}
+.k-bench__tag.is-active::after,
+.k-bench__tag.is-active::before {
+    background: var(--accent);
+}
+.k-bench.is-parked .k-bench__tags {
+    visibility: hidden;
+}
+.k-bench__tag[data-k='cleave'] {
+    --lead: 64px;
+}
+@media (max-width: 760px) {
+    .k-bench__tag {
+        --lead: 34px;
+    }
+    .k-bench__tag-note {
+        display: none;
+    }
+}
+
+/* no WebGL: the finished plan drawings, composed where the objects would be */
+.k-bench.is-fallback .k-bench__still {
+    position: absolute;
+    width: min(26vw, 340px);
+}
+.k-bench__still--cleave {
+    left: 6%;
+    top: 22%;
+}
+.k-bench__still--nerona {
+    left: 24%;
+    top: 34%;
+    width: min(32vw, 420px) !important;
+}
+.k-bench__still--azimuth {
+    left: 12%;
+    top: 58%;
+}
+
+/* ---------------------------------------------------------------------------
+   Specimen — one artifact, exploding into its layers (detail hero)
+   --------------------------------------------------------------------------- */
+.k-specimen {
+    position: absolute;
+    inset: 0;
+}
+.k-specimen__tag {
+    --lead: 40px;
+    cursor: default;
+}
+.k-specimen.is-parked .k-bench__tags {
+    visibility: hidden;
+}
+.k-specimen.is-fallback .k-specimen__still {
+    position: absolute;
+    right: var(--edge);
+    bottom: 14%;
+    width: min(46vw, 640px);
+}
+@media (max-width: 760px) {
+    .k-specimen.is-fallback .k-specimen__still {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        padding: 40px 16px 0;
+    }
+}

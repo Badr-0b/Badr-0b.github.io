@@ -1,77 +1,85 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useEffect, useRef } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
-import Reveal from '../../components/Reveal';
-import type { Project } from '../projects.data';
+import { reducedMotion, requestMeasure, useReveal } from '../../kit/motion';
+import PageIndex from '../../kit/PageIndex';
+import { getProject, projects } from '../projects.data';
+import ExitRamp from '../parts/ExitRamp';
+import DetailHero from './parts/DetailHero';
+import Brief from './parts/Brief';
+import Decisions from './parts/Decisions';
+import Delivered from './parts/Delivered';
+import NextSheet from './parts/NextSheet';
+import { SCENES } from './parts/scenes';
 
-export default function ProjectDetail({ project }: { project: Project }) {
-    const { t } = useLanguage();
+/* ===========================================================================
+   /projects/[slug] — one sheet, opened. The specimen separates into its layers;
+   the brief and a spec sheet; the drawing rebuilds and holds while each key
+   decision lights the parts it shaped; the project's own story, told with its
+   numbers where it has one; what shipped; the next sheet; the exit ramp.
+   =========================================================================== */
+
+export default function ProjectDetail({ slug, rev, year }: { slug: string; rev: string; year: string }) {
+    const { t, language } = useLanguage();
+    const rootRef = useRef<HTMLElement>(null);
+    const p = getProject(slug)!;
+    const index = projects.indexOf(p);
+    const total = projects.length;
+    const next = projects[(index + 1) % total];
+    const scene = SCENES[slug];
+
+    useReveal(rootRef, language);
+
+    useEffect(() => {
+        const id = requestAnimationFrame(() => rootRef.current?.classList.add('is-ready'));
+        return () => cancelAnimationFrame(id);
+    }, []);
+
+    useEffect(() => {
+        requestMeasure();
+    }, [language]);
+
+    // section numbering follows what this sheet actually has
+    const order = ['brief', 'drawing', ...(scene ? ['story'] : []), 'delivered', 'next', 'contact'];
+    const n = (id: string) => String(order.indexOf(id) + 1).padStart(2, '0');
+    const names: Record<string, string> = {
+        brief: t('projects.detail.brief'),
+        drawing: t('projects.detail.drawing'),
+        story: scene ? t(scene.name) : '',
+        delivered: t('projects.detail.delivered'),
+        next: t('projects.sec.next'),
+        contact: t('projects.sec.contact'),
+    };
 
     return (
-        <main className="pd">
-            <Link href="/projects" className="text-link text-link--dim pd__back" data-hover>
-                <span aria-hidden="true">←</span> {t('projects.detail.back')}
-            </Link>
+        <main className="pj pd k-scope" ref={rootRef} data-project={p.slug}>
+            <DetailHero p={p} index={index} total={total} rev={rev} />
+            <Brief p={p} idx={n('brief')} />
+            <Decisions p={p} idx={n('drawing')} />
+            {scene && <scene.Scene idx={n('story')} name={t(scene.name)} />}
+            <Delivered p={p} idx={n('delivered')} />
+            <NextSheet p={p} next={next} index={index} total={total} idx={n('next')} />
+            <ExitRamp />
 
-            <header className="pd__head">
-                <p className="pd__cat">{project.category}</p>
-                <h1 className="pd__title">{project.title}</h1>
-                <ul className="pd__tags">
-                    {project.tags.map((tag) => (
-                        <li key={tag} className="pd__tag">
-                            {tag}
-                        </li>
-                    ))}
-                </ul>
-            </header>
+            <footer className="pj-colophon">
+                <span>© {year} Badr Obtel</span>
+                <span className="pj-colophon__set">{t('about.colophon.set')}</span>
+                <button
+                    type="button"
+                    className="pj-colophon__top"
+                    data-hover
+                    onClick={() => window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' })}
+                >
+                    {t('about.colophon.top')} <span aria-hidden="true">↑</span>
+                </button>
+            </footer>
 
-            <Reveal className="pd__section">
-                <p className="label pd__label">{t('projects.detail.problem')}</p>
-                <div className="pd__content">
-                    <p className="pd__lead">{project.problem}</p>
-                </div>
-            </Reveal>
-
-            <Reveal className="pd__section">
-                <p className="label pd__label">{t('projects.detail.delivered')}</p>
-                <ul className="pd__content pd__list">
-                    {project.deliverables.map((item, i) => (
-                        <li key={i} className="pd__list-item">
-                            <span className="pd__list-idx">{String(i + 1).padStart(2, '0')}</span>
-                            <span className="pd__list-text">{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </Reveal>
-
-            <Reveal className="pd__section">
-                <p className="label pd__label">{t('projects.detail.decisions')}</p>
-                <ul className="pd__content pd__list pd__list--prose">
-                    {project.decisions.map((item, i) => (
-                        <li key={i} className="pd__list-item">
-                            <span className="pd__list-idx">{String(i + 1).padStart(2, '0')}</span>
-                            <span className="pd__list-text">{item}</span>
-                        </li>
-                    ))}
-                </ul>
-            </Reveal>
-
-            <Reveal className="pd__section pd__section--links">
-                <p className="label pd__label">{t('projects.detail.links')}</p>
-                <div className="pd__content">
-                    <a
-                        className="text-link"
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        data-hover
-                    >
-                        {t('projects.detail.github')} <span aria-hidden="true">↗</span>
-                    </a>
-                </div>
-            </Reveal>
+            <PageIndex
+                items={order.map((id) => ({ id, idx: n(id), name: names[id] }))}
+                label={`${p.title} — ${t('projects.index.label')}`}
+                after=".pd-hero"
+            />
         </main>
     );
 }

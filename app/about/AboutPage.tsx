@@ -11,7 +11,7 @@ import {
     requestMeasure,
     span,
     useReveal,
-} from './motion';
+} from '../kit/motion';
 import Stack from './parts/Stack';
 import Statement from './parts/Statement';
 import Toolkit from './parts/Toolkit';

@@ -2002,6 +2002,53 @@ a.ab-row__in:hover .ab-row__act {
 }
 
 /* ===========================================================================
+   VARIATION — the body column no longer starts every block on the same line.
+   The label column stays put (the trace runs through it); what moves is where
+   each block sits inside the body: the experience intro, the GPA figure and the
+   closing title anchor to the far side, the HIL readout splits across the field.
+   Wide screens only — below this the page is one column again.
+   =========================================================================== */
+@media (min-width: 1024px) {
+    .ab-exp__head {
+        max-width: min(600px, 62%);
+        margin-inline-start: auto;
+    }
+    .ab-rec__fig-in {
+        justify-content: flex-end;
+    }
+    .ab-contact__title {
+        margin-inline-start: auto;
+        margin-inline-end: 0;
+        width: fit-content;
+    }
+}
+@media (min-width: 1100px) {
+    /* the timer holds the left, the before/after captions answer it on the right,
+       and the proportional bar runs under both */
+    .ab-hil__readout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            'time caps'
+            'bar bar';
+        align-items: end;
+        column-gap: var(--ab-gap);
+        row-gap: 18px;
+    }
+    .ab-hil__time {
+        grid-area: time;
+    }
+    .ab-hil__bar {
+        grid-area: bar;
+    }
+    .ab-hil__captions {
+        grid-area: caps;
+        justify-self: end;
+        width: min(100%, 46ch);
+    }
+}
+
+/* ===========================================================================
    RESPONSIVE
    =========================================================================== */
 @media (max-width: 1099px) {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { matches, onMeasure } from '../motion';
+import { matches, onMeasure } from '../../kit/motion';
 
 type Pt = { x: number; y: number };
 type Kind = 'v' | 'd' | 'h';

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, type CSSProperties } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import { EMAIL, GITHUB, LINKEDIN, RESUME } from '../about.data';
-import { useMagnet } from '../motion';
+import { useMagnet } from '../../kit/motion';
 
 /** Copy the address in place — no alert, the label itself confirms. */
 function CopyButton({ text }: { text: string }) {

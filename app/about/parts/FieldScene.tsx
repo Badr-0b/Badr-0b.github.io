@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, type CSSProperties } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import { HIL } from '../about.data';
-import { damp, ease, lerp, matches, onFrame, onMeasure, reducedMotion, span } from '../motion';
+import { damp, ease, lerp, matches, onFrame, onMeasure, reducedMotion, span } from '../../kit/motion';
 
 const fmt = (sec: number) => {
     const h = Math.floor(sec / 3600);

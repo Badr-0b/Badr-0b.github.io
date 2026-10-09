@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { matches, onMeasure } from '../motion';
+import { matches, onMeasure } from '../../kit/motion';
 
 /* Statement markup: plain text with annotated phrases written as {n:phrase}. */
 type Piece = { text: string; n?: number; end?: boolean };

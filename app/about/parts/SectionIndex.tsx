@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { onFrame, onMeasure, scrollToId } from '../motion';
+import { onFrame, onMeasure, scrollToId } from '../../kit/motion';
 
 type Item = { id: string; idx: string; name: string };
 

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../../components/LanguageContext';
 import { allTools, toolkit, works, type Tool, type Work, type WorkId } from '../about.data';
-import { scrollToId } from '../motion';
+import { scrollToId } from '../../kit/motion';
 
 type Sel = { kind: 'tool'; id: string } | { kind: 'work'; id: WorkId } | null;
 

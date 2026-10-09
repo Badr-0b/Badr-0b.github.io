@@ -3,13 +3,13 @@
 import { useEffect, useRef, type RefObject } from 'react';
 
 /* ===========================================================================
-   /about — motion engine
-   One requestAnimationFrame loop drives every scroll- and pointer-linked effect
-   on the page, and it sleeps whenever nothing is moving. Effects never attach
-   their own scroll listeners: they read scroll from the frame, cache geometry
-   in measure passes (resize, font load, reflow) and write transform / opacity.
-   One curve — the site's --ease-luxury — or a straight tie to scroll.
-   AESTHETIC_DIRECTION.md §5 (motion) · §7 (interactivity).
+   Site motion engine (shared — /about, /projects, and every page rebuilt to
+   their level). One requestAnimationFrame loop drives every scroll- and
+   pointer-linked effect on the page, and it sleeps whenever nothing is moving.
+   Effects never attach their own scroll listeners: they read scroll from the
+   frame, cache geometry in measure passes (resize, font load, reflow) and write
+   transform / opacity. One curve — the site's --ease-luxury — or a straight tie
+   to scroll. AESTHETIC_DIRECTION.md §5 (motion) · §7 (interactivity).
    =========================================================================== */
 
 export const clamp = (v: number, lo = 0, hi = 1) => (v < lo ? lo : v > hi ? hi : v);
