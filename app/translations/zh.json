@@ -25,7 +25,7 @@
     "home.capabilities.3": "ASIC",
     "home.capabilities.4": "FPGA",
     "home.capabilities.5": "物联网",
-    "home.about.blurb": "我在系统的每一层设计硬件——一颗完成到硅版图的 RISC-V 内核、用于视觉与导航的电路板，以及测试它们的工具。电气工程三年级，院长荣誉榜。接受实习与自由职业项目。",
+    "home.about.blurb": "我在系统的每一层设计硬件。我把一颗 RISC-V 内核做到了硅版图，设计过用于视觉与导航的电路板，也写了测试它们的工具。我是电气工程专业三年级学生，上过院长荣誉榜，欢迎实习和自由职业合作。",
     "home.about.more": "更多关于我",
     "home.cta.text": "正在做什么项目吗？我们聊聊吧。",
     "home.hero.eyebrow": "Badr Obtel — 硬件工程师",
