@@ -627,6 +627,51 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Odometer — a figure on rolling reels
+   --------------------------------------------------------------------------- */
+.k-odo {
+    display: inline-flex;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+}
+.k-odo__track {
+    display: inline-flex;
+    align-items: baseline;
+}
+.k-odo__reels {
+    display: inline-flex;
+    align-items: flex-start;
+}
+.k-odo__suffix {
+    margin-inline-start: 0.55em;
+}
+.k-odo__col {
+    display: inline-block;
+    height: 1.3em;
+    margin-block: -0.15em;
+    line-height: 1.3;
+    vertical-align: top;
+    overflow: hidden;
+}
+.k-odo__reel {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+}
+.k-odo__reel > span {
+    display: block;
+    height: 1.3em;
+    line-height: 1.3;
+}
+.k-odo__dot {
+    display: inline-block;
+    height: 1.3em;
+    margin-block: -0.15em;
+    line-height: 1.3;
+}
+
+/* ---------------------------------------------------------------------------
    Bearing — the needle on a compass rose (AZIMUTH)
    --------------------------------------------------------------------------- */
 .k-bearing {

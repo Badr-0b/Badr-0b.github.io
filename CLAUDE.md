@@ -13,17 +13,18 @@ Personal portfolio for Badr. **Next.js 16 static export → GitHub Pages.** Mult
 `docs/archive/` is **retired history** (an older aesthetic direction). Never follow it or treat
 it as current — if it disagrees with `AESTHETIC_DIRECTION.md`, the direction doc wins.
 
-## Quality bar — About and Projects lead, the other pages are not references
+## Quality bar — Landing, About and Projects lead; contact and resume are not references
 
-Per Badr (2026-10-03): **the landing (`/`), contact and resume pages were built with less effort.
-Do NOT use them as a design or effort reference** — copying their patterns caps the work at their
-level.
+Per Badr (2026-10-03): **the contact and resume pages were built with less effort. Do NOT use them
+as a design or effort reference** — copying their patterns caps the work at their level. (The
+landing was in this group until its rebuild on 2026-10-23.)
 
 - Design new UI **from the UI docs** (`AESTHETIC_DIRECTION.md`, plus `Bare Bones.md` for page
   content and structure), with original interactive ideas, held to a "profoundly premium" bar.
-- **`/about` (`app/about/`) and `/projects` + `/projects/[slug]` (`app/projects/`, rebuilt
-  2026-10-09) are the quality bar.** Both were built from the docs alone. When a page is redone,
-  match their level of craft (not necessarily their exact components).
+- **`/` (`app/home/`, rebuilt 2026-10-23), `/about` (`app/about/`) and `/projects` +
+  `/projects/[slug]` (`app/projects/`, rebuilt 2026-10-09) are the quality bar.** All were built
+  from the docs alone. When a page is redone, match their level of craft (not necessarily their
+  exact components).
 - **Vary the composition.** Badr disliked every section starting on the same left line: place
   blocks on a 12-column field so consecutive views don't share an anchor (left, full, far side…).
 - The lower-effort pages **will be rebuilt later**. Until then, keep their existing behaviour
@@ -40,7 +41,9 @@ level.
   with inspectable parts, balloons, and a stage legend.
 - `three/` — hidden-line 3D (three.js, lazy-loaded): `Bench` (index hero), `Specimen` (exploded
   view). Recoloured from the CSS tokens, so light mode just works.
-- `PageIndex`, `CopyButton`, `Bearing` — small shared controls.
+- `PageIndex`, `CopyButton`, `Bearing`, `Odometer` (a figure on rolling reels) — small shared controls.
+- The landing's line-up (`app/home/parts/Showcase.tsx`) is built on the same `three/` stage and
+  models; its scroll state comes from `app/home/useShow.ts` (no GSAP anywhere on the site now).
 - Project content lives in `app/projects/projects.data.ts`; drawing part ids are referenced by its
   `notes` and decision `parts`.
 
@@ -49,6 +52,9 @@ level.
 - Static export (`output: 'export'` in `next.config.mjs`). No server runtime — design and build
   for static HTML/CSS/JS only.
 - `.npmrc` has `legacy-peer-deps=true` (needed for `npm ci` to resolve). Keep it.
+- `next.config.mjs` pins `turbopack.root` to the repo. Without it, a stray lockfile higher up (one
+  appeared in the user folder in Oct 2026) makes Turbopack pick the wrong root: the dev server
+  hangs, fails to resolve `three`, and runs out of memory. Keep it.
 - Push to `main` → GitHub Actions builds and deploys automatically. Live at
   https://badr-0b.github.io.
 - **No standalone git installed** — git operations use GitHub Desktop's bundled binary. Badr
