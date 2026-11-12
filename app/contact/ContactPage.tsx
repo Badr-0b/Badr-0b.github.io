@@ -20,16 +20,18 @@ import { composeBrief } from './compose';
 import { useBrief } from './useBrief';
 import Step from './parts/Step';
 import Sheet from './parts/Sheet';
-import TitleBlock from './parts/TitleBlock';
+import Spec from './parts/Spec';
 import Exits from './parts/Exits';
 import Escape from './parts/Escape';
 
 /* ===========================================================================
    /contact — the brief. Built from AESTHETIC_DIRECTION.md + Bare Bones.md.
-   /projects ends on a reserved, blank sheet; this page is that sheet. One
-   question at a time on the near side, and the visitor's answers draw their
-   project onto the sheet on the far side while its title block fills in. It
-   ends as a draft in their own inbox. One curve, transform/opacity only, RTL
+   /projects ends on a reserved, blank sheet; this page is that sheet. It opens
+   the way the other pages do: one question, sunk to the lower near corner;
+   the reserved sheet, nearly empty, on the far side; metadata in the corners.
+   Each answer draws the visitor's project onto the sheet and adds a word to
+   its spec line. It ends as a draft in their own inbox. No rules between
+   things — space does the separating. One curve, transform/opacity only, RTL
    mirrored, every motion with a reduced-motion end state.
    =========================================================================== */
 
@@ -44,12 +46,23 @@ export default function ContactPage() {
     const [today, setToday] = useState<Date | null>(null);
     // compose the page in once mounted — React owns this class (an imperative one would be wiped on the next render)
     const [composed, setComposed] = useState(false);
+    // the key hints are for people using keys: they appear on the first key press, not before
+    const [keyed, setKeyed] = useState(false);
 
     useEffect(() => {
         setToday(new Date());
         const id = requestAnimationFrame(() => setComposed(true));
         return () => cancelAnimationFrame(id);
     }, []);
+
+    useEffect(() => {
+        if (keyed) return;
+        const on = (e: KeyboardEvent) => {
+            if (!['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) setKeyed(true);
+        };
+        window.addEventListener('keydown', on);
+        return () => window.removeEventListener('keydown', on);
+    }, [keyed]);
 
     useEffect(() => {
         requestMeasure();
@@ -155,39 +168,24 @@ export default function ContactPage() {
 
     return (
         <main
-            className={`ct k-scope ${composed ? 'is-ready' : ''} ${review ? 'is-review' : ''}`}
+            className={`ct k-scope ${composed ? 'is-ready' : ''} ${review ? 'is-review' : ''} ${a.what ? 'is-drawn' : 'is-blank'} ${keyed ? 'is-keyed' : ''}`}
             data-phase={brief.phase}
             data-swap={brief.swap}
             data-path={path}
         >
-            <header className="ct-meta" data-in style={{ '--d': '120ms' } as CSSProperties}>
-                <h1 className="ct-meta__title">
-                    {t('contact.meta.title')} — {t('projects.sec.sheet')} {SHEET_NO}
-                </h1>
-                <p className="ct-meta__step" aria-live="polite">
-                    {review ? (
-                        t('contact.meta.review')
-                    ) : (
-                        <>
-                            <span className="ct-meta__n" dir="ltr">
-                                {pad(index + 1)} / {pad(total)}
-                            </span>
-                            <span className="ct-meta__rule" aria-hidden="true">
-                                <span className="ct-meta__fill" style={{ transform: `scaleX(${(index + 1) / total})` }} />
-                            </span>
-                        </>
-                    )}
-                </p>
-            </header>
+            <h1 className="k-sr">
+                {t('nav.contact')} — Badr Obtel
+            </h1>
 
-            <div className="ct-status" data-in style={{ '--d': '260ms' } as CSSProperties}>
-                <p className="ct-status__avail">
-                    <span className="ct-status__dot" aria-hidden="true" />
+            {/* metadata, upper far corner: who's on the other end, and their clock */}
+            <header className="ct-meta" data-in style={{ '--d': '760ms' } as CSSProperties}>
+                <p className="ct-meta__avail">
+                    <span className="ct-meta__dot" aria-hidden="true" />
                     {t('about.now.available')}
                 </p>
-                <p className="ct-status__time">
+                <p className="ct-meta__time">
                     <span>{t('about.now.place')}</span>
-                    <span className="ct-status__clock" dir="ltr">
+                    <span className="ct-meta__clock" dir="ltr">
                         {time}
                     </span>
                     <span>
@@ -202,13 +200,12 @@ export default function ContactPage() {
                         )}
                     </span>
                 </p>
-            </div>
+            </header>
 
             <section className="ct-step" aria-label={t('contact.meta.title')}>
                 {review ? (
                     <Exits
                         brief={email}
-                        index={total + 1}
                         issued={issued}
                         time={time}
                         focus={brief.moved}
@@ -246,22 +243,18 @@ export default function ContactPage() {
                     start={a.start ? (start?.offset ?? null) : undefined}
                     issuedOn={issued ? date : null}
                 />
-                <TitleBlock
+                <Spec
                     path={path}
-                    started={!!a.what}
                     steps={steps}
                     step={step}
                     review={review}
                     values={values}
-                    notes={a.message?.trim() ?? ''}
-                    date={date}
-                    issued={!!issued}
                     cite={brief.ref}
                     onJump={brief.jump}
                 />
             </div>
 
-            <footer className="ct-foot" data-in style={{ '--d': '520ms' } as CSSProperties}>
+            <footer className="ct-foot" data-in style={{ '--d': '900ms' } as CSSProperties}>
                 <span className="ct-foot__keys" aria-hidden="true">
                     {keysHint}
                 </span>

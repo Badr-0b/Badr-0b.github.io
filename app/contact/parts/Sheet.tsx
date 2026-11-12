@@ -4,10 +4,10 @@ import React, { useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import Plate from '../../kit/Plate';
 import type { Drawing } from '../../kit/draw';
-import { blankSheet, genericBoard, genericDie, genericSoftware } from '../../kit/draw/generic';
+import { genericBoard, genericDie, genericSoftware } from '../../kit/draw/generic';
 import { clamp, ease, onFrame, reducedMotion, requestMeasure, wake } from '../../kit/motion';
 import { SHEET_NO, TERM, WHEN, sheetProgress, type Answers, type StepId, type What } from '../contact.data';
-import { CAL, calendarSheet, firmwareSheet, monthX } from '../sheets';
+import { CAL, calendarSheet, firmwareSheet, monthX, reservedSheet } from '../sheets';
 
 /* ===========================================================================
    The visitor's sheet. The first answer picks the drawing; the full drawing
@@ -30,7 +30,7 @@ function drawingFor(what: What | undefined, seed: string, reserved: string, now:
         case 'role':
             return calendarSheet(now, title);
         default:
-            return blankSheet(reserved);
+            return reservedSheet(reserved);
     }
 }
 
@@ -186,7 +186,7 @@ export default function Sheet({
     return (
         <div className="ct-plate" data-kind={kind ?? 'blank'}>
             {/* a new drawing is a new plate: it locks on and builds from nothing */}
-            <Plate key={drawKey} drawing={drawing} build={progress} strip probe={false} className="ct-plate__k">
+            <Plate key={drawKey} drawing={drawing} build={progress} strip={false} probe={false} className="ct-plate__k">
                 {kind && kind !== 'hello' && <Ghost drawing={drawing} />}
                 {kind && kind !== 'role' && kind !== 'hello' && <Schedule when={a.when} />}
                 {kind === 'role' && <Window start={start} term={a.term} />}

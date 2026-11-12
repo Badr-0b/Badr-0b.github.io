@@ -19,7 +19,9 @@ Per Badr (2026-10-03): **the contact and resume pages were built with less effor
 as a design or effort reference** — copying their patterns caps the work at their level. (The
 landing was in this group until its rebuild on 2026-10-23. `/contact` (`app/contact/`) was rebuilt
 from the docs on 2026-11-12 as "the brief" — a one-question-at-a-time brief that draws the visitor's
-project as the next sheet and ends as a draft in their own inbox; pending Badr's review.)
+project as the next sheet and ends as a draft in their own inbox. Recomposed the same day after
+Badr found its first screen crowded and its dividers excessive: it now opens like the landing and
+about — one question lower-left, metadata in the corners, no rules between rows. Pending his review.)
 
 - Design new UI **from the UI docs** (`AESTHETIC_DIRECTION.md`, plus `Bare Bones.md` for page
   content and structure), with original interactive ideas, held to a "profoundly premium" bar.

@@ -5,24 +5,26 @@ import { useLanguage } from '../../components/LanguageContext';
 import { LIMIT, type Answers, type Choice, type Path, type StepId } from '../contact.data';
 
 /* ===========================================================================
-   One question. Answers are rows on hairlines (the register's vocabulary, not
-   pills): a number key, the answer, a quiet note. Picking one lights it and the
-   next question follows; the free-text steps keep a continue control.
+   One question, set like the site's heroes. Answers are a quiet numbered list
+   (no rules between them): a number key, the answer, and a note that surfaces
+   on hover or focus. Picking one lights it and the next question follows; the
+   free-text steps keep a continue control.
    =========================================================================== */
 
-const EYEBROW: Record<StepId, string> = {
-    what: 'contact.meta.title',
-    stage: 'contact.cell.stage',
-    when: 'contact.cell.schedule',
-    budget: 'contact.cell.budget',
-    org: 'contact.cell.company',
-    start: 'contact.cell.start',
-    term: 'contact.cell.term',
-    message: 'contact.cell.notes',
-    name: 'contact.cell.from',
-};
-
 const pad = (n: number) => String(n).padStart(2, '0');
+
+/** The page's place in the site, then where the visitor is in the brief. */
+export function Eyebrow({ i, children }: { i: number; children: React.ReactNode }) {
+    const { t } = useLanguage();
+    return (
+        <p className="ct-q__eyebrow" style={{ '--i': i } as CSSProperties}>
+            <span className="ct-q__n">(03)</span>
+            <span>
+                {t('nav.contact')} — {children}
+            </span>
+        </p>
+    );
+}
 
 function Choices({
     id,
@@ -206,10 +208,15 @@ export default function Step({
 
     return (
         <div className={`ct-q ${isText ? 'ct-q--text' : ''}`} ref={rootRef} data-step={step}>
-            <p className="ct-q__eyebrow" style={{ '--i': 0 } as CSSProperties}>
-                <span className="ct-q__n">({pad(index + 1)})</span>
-                {t(EYEBROW[step])}
-            </p>
+            <Eyebrow i={0}>
+                {index === 0 ? (
+                    'Badr Obtel'
+                ) : (
+                    <span className="ct-q__count" dir="ltr">
+                        {pad(index + 1)} / {pad(total)}
+                    </span>
+                )}
+            </Eyebrow>
             <h2 className="ct-q__title" id={titleId} tabIndex={-1} style={{ '--i': 1 } as CSSProperties}>
                 {t(q)}
             </h2>

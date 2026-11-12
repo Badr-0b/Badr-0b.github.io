@@ -138,3 +138,22 @@ export function calendarSheet(from: Date, title: string): Drawing {
 
     return { id: `cal-${y0}-${m0}`, w: 640, h: 440, stages: CALENDAR_STAGES, layers, parts: [], labels, title };
 }
+
+/**
+ * The reserved sheet, before anything is asked of it: no grid, no strip — the
+ * frame's corners, a centre mark and its name. The emptiness is the invitation.
+ */
+export function reservedSheet(label: string): Drawing {
+    const cx = 320;
+    const cy = 220;
+    return {
+        id: 'reserved',
+        w: 640,
+        h: 440,
+        stages: ['kit.stage.blank'],
+        layers: [{ stage: 0, ink: 'mid', d: line(cx - 12, cy, cx + 12, cy) + line(cx, cy - 12, cx, cy + 12) + circle(cx, cy, 5) }],
+        parts: [],
+        labels: [{ x: cx, y: cy + 34, text: label, stage: 0, size: 9, ink: 'faint', anchor: 'middle' }],
+        title: label,
+    };
+}

@@ -6,6 +6,7 @@ import { useMagnet } from '../../kit/motion';
 import { EMAIL } from '../../about/about.data';
 import { briefText, copyText, draftUrl, type Brief, type Route } from '../compose';
 import type { Issued } from '../useBrief';
+import { Eyebrow } from './Step';
 
 /* ===========================================================================
    The hand-off. The brief opens as a draft in the visitor's own inbox — Gmail
@@ -13,8 +14,6 @@ import type { Issued } from '../useBrief';
    them press send, so it says only what it knows. A mail app that never opens
    (no handler set — common on desktop) is caught and answered with the others.
    =========================================================================== */
-
-const pad = (n: number) => String(n).padStart(2, '0');
 
 /** Did the mail app take over? If the page still has focus after a beat, nothing opened. */
 function watchHandoff(onFail: () => void) {
@@ -87,7 +86,6 @@ function Row({
 
 export default function Exits({
     brief,
-    index,
     issued,
     time,
     focus,
@@ -96,7 +94,6 @@ export default function Exits({
     onReset,
 }: {
     brief: Brief;
-    index: number;
     issued: Issued | null;
     time: string;
     focus: boolean;
@@ -161,10 +158,7 @@ export default function Exits({
 
     return (
         <div className="ct-q ct-q--review" ref={rootRef}>
-            <p className="ct-q__eyebrow" style={{ '--i': 0 } as CSSProperties}>
-                <span className="ct-q__n">({pad(index)})</span>
-                {t('contact.review.eyebrow')}
-            </p>
+            <Eyebrow i={0}>{t('contact.meta.review')}</Eyebrow>
             <h2 className="ct-q__title" tabIndex={-1} style={{ '--i': 1 } as CSSProperties} key={issued ?? 'draft'}>
                 {issued ? t(`contact.issued.${issued}`) : t('contact.review.title')}
             </h2>
