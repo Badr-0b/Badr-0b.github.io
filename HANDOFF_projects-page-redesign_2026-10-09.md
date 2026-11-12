@@ -38,7 +38,7 @@ Badr asked for a full, from-scratch redesign of the Projects page at the craft l
 
 ## 2.1 Operator profile and working constraints
 
-- **Identity.** Badr Obtel, git author `Badr Ob <badr@obtel.org>`. Third-year Electrical Engineering student (Dean's Honors List) at the American University of the Middle East (AUM), Kuwait; based in Salmiya, GMT+3. [SOURCE: app/about/about.data.ts and app/translations/en.json about.* strings; commit 21b5d22 author line]
+- **Identity.** Badr Obtel, git author `Badr Ob <badr@obtel.org>`. Third-year Electrical Engineering student (Dean's Honors List) at the American University of the Middle East (AUM), Kuwait; based in Kuwait, GMT+3. [SOURCE: app/about/about.data.ts and app/translations/en.json about.* strings; commit 21b5d22 author line]
 - **Languages.** English native; Arabic fluent in Darija, conversational Kuwaiti and Egyptian; French beginner. [SOURCE: en.json keys about.now.lang.en / ar / fr] Badr can review the Arabic strings himself; French, Japanese and Chinese need another reviewer.
 - **Working style.** Prefers Claude to run git operations directly rather than receive commands. [USER, via CLAUDE.md and prior-session memory] The harness rule still applies: commit or push only when asked, because a push to main deploys the live site. In this session Badr committed and pushed himself through GitHub Desktop. [SOURCE: git log]
 - **Effort setting.** Badr set `/effort max` for this session and wrote "take as long as you need to think and reason". [USER]

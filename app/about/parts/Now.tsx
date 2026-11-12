@@ -5,7 +5,7 @@ import { useLanguage } from '../../components/LanguageContext';
 import { FENERIS, PLACE, spoken } from '../about.data';
 
 /**
- * Local time in Salmiya, and how far that is from the visitor's own clock.
+ * Local time in Kuwait, and how far that is from the visitor's own clock.
  * Live data, not decoration: it changes once a minute, on the minute.
  */
 function LocalTime() {

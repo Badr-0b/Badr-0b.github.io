@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { PLACE } from '../about/about.data';
 
 /**
- * Local time in Salmiya, and how far it is from the visitor's own clock — live
+ * Local time in Kuwait, and how far it is from the visitor's own clock — live
  * data, updated on the minute. Null until mounted (the static export has no clock).
  */
 export function useClock() {

@@ -43,7 +43,7 @@ project as the next sheet and ends as a draft in their own inbox; pending Badr's
   with inspectable parts, balloons, and a stage legend.
 - `three/` — hidden-line 3D (three.js, lazy-loaded): `Bench` (index hero), `Specimen` (exploded
   view). Recoloured from the CSS tokens, so light mode just works.
-- `PageIndex`, `CopyButton`, `Bearing`, `Odometer` (a figure on rolling reels), `useClock` (Salmiya
+- `PageIndex`, `CopyButton`, `Bearing`, `Odometer` (a figure on rolling reels), `useClock` (Kuwait
   time + offset from the visitor) — small shared controls.
 - The landing's line-up (`app/home/parts/Showcase.tsx`) is built on the same `three/` stage and
   models; its scroll state comes from `app/home/useShow.ts` (no GSAP anywhere on the site now).

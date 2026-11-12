@@ -152,7 +152,8 @@ export const PLACE = {
     timeZone: 'Asia/Kuwait',
     /** minutes east of UTC (Kuwait keeps no DST) */
     offset: 180,
-    coords: '29.33° N — 48.08° E',
+    /** Kuwait's geographic centre, deliberately country-level (no district) */
+    coords: '29.31° N — 47.48° E',
 };
 
 export const EMAIL = 'badr@obtel.org';
