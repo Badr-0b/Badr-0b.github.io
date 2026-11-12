@@ -6,7 +6,7 @@ import { useLanguage } from '../../components/LanguageContext';
 import CopyButton from '../../kit/CopyButton';
 import { useMagnet } from '../../kit/motion';
 import { EMAIL, GITHUB, LINKEDIN } from '../../about/about.data';
-import { useClock } from '../useClock';
+import { useClock } from '../../kit/useClock';
 
 function Row({
     k,

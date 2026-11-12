@@ -13,11 +13,13 @@ Personal portfolio for Badr. **Next.js 16 static export → GitHub Pages.** Mult
 `docs/archive/` is **retired history** (an older aesthetic direction). Never follow it or treat
 it as current — if it disagrees with `AESTHETIC_DIRECTION.md`, the direction doc wins.
 
-## Quality bar — Landing, About and Projects lead; contact and resume are not references
+## Quality bar — Landing, About and Projects lead; resume is not a reference
 
 Per Badr (2026-10-03): **the contact and resume pages were built with less effort. Do NOT use them
 as a design or effort reference** — copying their patterns caps the work at their level. (The
-landing was in this group until its rebuild on 2026-10-23.)
+landing was in this group until its rebuild on 2026-10-23. `/contact` (`app/contact/`) was rebuilt
+from the docs on 2026-11-12 as "the brief" — a one-question-at-a-time brief that draws the visitor's
+project as the next sheet and ends as a draft in their own inbox; pending Badr's review.)
 
 - Design new UI **from the UI docs** (`AESTHETIC_DIRECTION.md`, plus `Bare Bones.md` for page
   content and structure), with original interactive ideas, held to a "profoundly premium" bar.
@@ -41,7 +43,8 @@ landing was in this group until its rebuild on 2026-10-23.)
   with inspectable parts, balloons, and a stage legend.
 - `three/` — hidden-line 3D (three.js, lazy-loaded): `Bench` (index hero), `Specimen` (exploded
   view). Recoloured from the CSS tokens, so light mode just works.
-- `PageIndex`, `CopyButton`, `Bearing`, `Odometer` (a figure on rolling reels) — small shared controls.
+- `PageIndex`, `CopyButton`, `Bearing`, `Odometer` (a figure on rolling reels), `useClock` (Salmiya
+  time + offset from the visitor) — small shared controls.
 - The landing's line-up (`app/home/parts/Showcase.tsx`) is built on the same `three/` stage and
   models; its scroll state comes from `app/home/useShow.ts` (no GSAP anywhere on the site now).
 - Project content lives in `app/projects/projects.data.ts`; drawing part ids are referenced by its

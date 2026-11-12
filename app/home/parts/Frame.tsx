@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useLanguage } from '../../components/LanguageContext';
 import { finePointer, onFrame, onMeasure, wake } from '../../kit/motion';
 import { PLACE } from '../../about/about.data';
-import { useClock } from '../useClock';
+import { useClock } from '../../kit/useClock';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const INSET = 26;

@@ -61,9 +61,13 @@ function Row({
     );
 }
 
-/** The exit ramp — every page ends with a way to reach Badr. */
-export default function ExitRamp() {
+/**
+ * The exit ramp — every page ends with a way to reach Badr. From a project's own
+ * sheet, the brief opens already pointed at that kind of work, citing the sheet.
+ */
+export default function ExitRamp({ kind, from }: { kind?: string; from?: string }) {
     const { t } = useLanguage();
+    const query = new URLSearchParams({ ...(kind ? { kind } : {}), ...(from ? { from } : {}) }).toString();
     return (
         <section className="pj-sec pj-contact" id="contact" aria-labelledby="contact-title">
             <header className="pj-sec__label" data-reveal="fade">
@@ -90,7 +94,7 @@ export default function ExitRamp() {
                     <Row
                         k={t('projects.contact.brief')}
                         v={t('projects.contact.start')}
-                        href="/contact/"
+                        href={`/contact/${query ? `?${query}` : ''}`}
                         arrow="→"
                         delay={90}
                         cursor={t('projects.contact.open')}

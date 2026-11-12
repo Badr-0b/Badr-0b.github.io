@@ -60,7 +60,7 @@ export default function ProjectDetail({ slug, rev, year }: { slug: string; rev: 
             {scene && <scene.Scene idx={n('story')} name={t(scene.name)} />}
             <Delivered p={p} idx={n('delivered')} />
             <NextSheet p={p} next={next} index={index} total={total} idx={n('next')} />
-            <ExitRamp />
+            <ExitRamp kind={p.kind} from={p.slug} />
 
             <footer className="pj-colophon">
                 <span>© {year} Badr Obtel</span>

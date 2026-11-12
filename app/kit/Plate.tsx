@@ -16,6 +16,9 @@ import './kit.css';
 
 export type PlateNote = { n: number; part: string | string[] };
 
+/** One shared empty list: a fresh `[]` default each render would restart the build effect. */
+const NO_NOTES: PlateNote[] = [];
+
 export type PlateBuild =
     | 'scroll' // follows the plate through the viewport (in-flow scrub)
     | 'time' // builds once, over a few seconds, when it first comes into view
@@ -55,7 +58,7 @@ function windowOf(stage: number, at: number, N: number, band = 0, bands = 1): [n
 export default function Plate({
     drawing,
     build = 'scroll',
-    notes = [],
+    notes = NO_NOTES,
     active = null,
     onActive,
     strip = true,
@@ -147,6 +150,8 @@ export default function Plate({
             for (let i = 0; i < els.length; i++) {
                 const el = els[i];
                 const a = plan.anims[Number(el.dataset.a)];
+                // a new drawing can re-index reused paths a frame before this loop is torn down
+                if (!a) continue;
                 const v = ease(span(p, a.start, a.end));
                 if (Math.abs(v - last[i]) < 0.002) continue;
                 last[i] = v;
